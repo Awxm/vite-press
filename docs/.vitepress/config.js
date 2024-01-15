@@ -5,7 +5,7 @@ export default defineConfig({
   title: "募随文档",
   description: "募随文档",
   lang: "zh-CN",
-  base: '/docs/',
+  base: '/vite-press/',
   // lastUpdated: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
