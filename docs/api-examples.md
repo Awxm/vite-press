@@ -1,9 +1,11 @@
 ---
 outline: deep
 lastUpdated: true
+title: 测试title
+navbar: false
 ---
 
-# Runtime API Examples
+# 模块2
 
 This page demonstrates usage of some of the runtime APIs provided by VitePress.
 

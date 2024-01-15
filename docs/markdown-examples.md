@@ -4,6 +4,10 @@ This page demonstrates some of the built-in markdown extensions provided by Vite
 
 ## Syntax Highlighting
 
+## Syntax Highlighting
+
+### 这是一个三级模块
+
 VitePress provides Syntax Highlighting powered by [Shikiji](https://github.com/antfu/shikiji), with additional features like line-highlighting:
 
 **Input**

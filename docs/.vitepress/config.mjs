@@ -4,25 +4,32 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "募随文档",
   description: "募随文档",
+  lang: "zh-CN",
+  base: '/docs/',
+  // lastUpdated: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '用户列表', link: '/markdown-examples' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: '用户列表',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: '模块1', link: '/markdown-examples' },
+          { text: '模块2', link: '/api-examples' }
         ]
       }
     ],
-
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
+    search: {
+      provider: 'local'
+    },
+    docFooter: {
+      prev: '上一页',
+      next: '下一页'
+    },
+    socialLinks: []
   }
 })
