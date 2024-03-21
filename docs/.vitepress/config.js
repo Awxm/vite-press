@@ -2,27 +2,35 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "募随文档",
-  description: "募随文档",
+  title: "学习文档",
+  description: "学习文档",
   lang: "zh-CN",
   base: '/vite-press/',
-  // lastUpdated: true,
+  lastUpdated: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: '首页', link: '/' },
-      { text: '用户列表', link: '/markdown-examples' }
+      { text: '博客', link: '/blog' },
+      {
+        text: '文档', items: [
+          { text: '语言', link: '/javaScript/' },
+          { text: '样式', link: '/style/' },
+        ]
+      },
+      { text: '算法', link: '/arithmetic/' },
+      { text: '面试', link: '/interview/' }
     ],
 
-    sidebar: [
-      {
-        text: '用户列表',
-        items: [
-          { text: '模块1', link: '/markdown-examples' },
-          { text: '模块2', link: '/api-examples' }
-        ]
-      }
-    ],
+    sidebar: '',
+    // [
+    //   {
+    //     text: '用户列表',
+    //     items: [
+    //       { text: '模块1', link: '/markdown-examples' },
+    //       { text: '模块2', link: '/api-examples' }
+    //     ]
+    //   }
+    // ],
     search: {
       provider: 'local'
     },

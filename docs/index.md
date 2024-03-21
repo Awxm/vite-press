@@ -3,23 +3,31 @@
 layout: home
 
 hero:
-  name: "募随Docs"
-  text: "募随文档"
-  tagline: My great project tagline
+  name: "学习Docs"
+  text: "chenxin"
+  tagline: 主要用来记录一下笔记
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: 快速开始
+      link: /javaScript/
+
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 语言
+    details: 深入浅出语言、es6、ECMA
+  - title: 样式
+    details: 视觉格式化模型、样式计算
+  - title: 浏览器
+    details: 认识浏览器、简单了解v8引擎
+  - title: node
+    details: 深入浅出node
+  - title: 网络 http
+    details: 了解 HTTP
+  - title: 框架
+    details: vue、element-ui、tdesign
+  - title: 工程化
+    details: webpack、vite、rollup、babel
+  - title: 小程序
+    details: 微信小程序
 ---
 

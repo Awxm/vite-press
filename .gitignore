@@ -1,0 +1,5 @@
+node_modules/
+.env.self
+.idea
+.vscode
+pnpm-lock.lock
