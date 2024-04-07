@@ -29,5 +29,14 @@ export default {
                 { text: 'javaScript基本概念', link: '/blog/chapter3' }
             ]
         }
+    ],
+    '/git/': [
+        {
+            text: 'git',
+            link: '/git/',
+            items: [
+                { text: 'git版本回退方案', link: '/git/fallback' },
+            ]
+        },
     ]
 }
