@@ -2,8 +2,8 @@ import { defineConfig } from 'vitepress'
 import sidebar from './option/sidebar.js';
 import nav from './option/nav.js';
 export default defineConfig({
-  title: "学习文档",
-  description: "学习文档",
+  title: "ChenXin",
+  description: "ChenXin",
   lang: "zh-CN",
   base: '/vite-press/',
   lastUpdated: true,

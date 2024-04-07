@@ -1,5 +1,4 @@
 export default [
-    { text: '博客', link: '/blog/' },
     {
         text: '文档',
         items: [
@@ -14,6 +13,7 @@ export default [
             { text: 'GIT', link: '/git/' },
         ]
     },
+    { text: '红宝书', link: '/blog/' },
     { text: '算法', link: '/arithmetic/' },
     { text: '面试', link: '/interview/' }
 ]

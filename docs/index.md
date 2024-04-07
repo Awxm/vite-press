@@ -3,12 +3,12 @@
 layout: home
 
 hero:
-  name: "学习Docs"
-  text: "chenxin"
-  tagline: 主要用来记录一下笔记
+  name: "Document"
+  text: ""
+  tagline: 
   actions:
     - theme: brand
-      text: 快速开始
+      text: 红宝书
       link: /blog/
 
 
