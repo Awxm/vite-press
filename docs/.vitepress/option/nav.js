@@ -10,7 +10,7 @@ export default [
             { text: '工程化', link: '/style/' },
             { text: 'node', link: '/style/' },
             { text: '小程序', link: '/style/' },
-            { text: 'Nginx', link: '/style/' },
+            { text: 'Nginx', link: '/nginx/' },
             { text: 'Docker', link: '/style/' },
             { text: 'Git', link: '/git/' },
         ]

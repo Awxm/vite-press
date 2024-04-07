@@ -30,6 +30,19 @@ export default {
             ]
         }
     ],
+    '/nginx/': [
+        {
+            items: [
+                { text: 'global', link: '/nginx/global' },
+                { text: 'events', link: '/nginx/events' },
+                { text: 'stream', link: '/nginx/stream' },
+                { text: 'http', link: '/nginx/http' },
+                { text: 'server', link: '/nginx/server' },
+                { text: 'location', link: '/nginx/location' },
+                { text: 'property', link: '/nginx/property' },
+            ]
+        },
+    ],
     '/git/': [
         {
             text: 'git',
