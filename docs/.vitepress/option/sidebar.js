@@ -10,6 +10,13 @@ export default {
             ]
         }
     ],
+    '/duyi-yuan/': [
+        {
+            items: [
+                { text: '事件循环', link: '/duyi-yuan/event-loop' },
+            ]
+        }
+    ],
     '/style/': [
         {
             text: '视觉格式化模型',
