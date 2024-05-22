@@ -13,9 +13,11 @@ export default [
             { text: 'Nginx', link: '/nginx/' },
             { text: 'Docker', link: '/style/' },
             { text: 'Git', link: '/git/' },
+            { text: 'Vue', link: '/vue/' },
+            { text: 'Vue3', link: '/vue/vue3/' },
         ]
     },
-    { text: '红宝书', link: '/blog/' },
+    { text: '红宝书', link: '/red-treasure-book/' },
     { text: '袁老师的大师课', link: '/duyi-yuan/' },
     { text: '算法', link: '/arithmetic/' },
     { text: '面试', link: '/interview/' }

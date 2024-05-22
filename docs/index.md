@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: 红宝书
-      link: /blog/
+      link: /red-treasure-book/
 
 
 features:

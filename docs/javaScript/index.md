@@ -1,28 +1,80 @@
-# JavaScript红宝书
+# Javascript
 
-1. 重点介绍 ECMAScript 和 DOM标准。在此基础上，接下来的各章揭示了 JavaScript 的基本概念，包括类、期约、迭代器、代理，等等。另外，书中还深入探讨了客户端检
-测、事件、动画、表单、错误处理及 JSON。本书最后介绍近几年来涌现的最新和最重要的规范，包括 FetchAPI、模块、工作者线程、服务线程以及大量新 API。
+## 核心（Core）
 
-2. JavaScript包含:核心（ECMAScript）文档对象模型（DOM）浏览器对象模型（BOM）
+这是 JavaScript 语言的基础部分，包括基本数据类型（如字符串、数字、布尔值等）、运算符、控制结构（如 if 语句、循环等）、函数以及对象。这部分内容是 JavaScript 的基础，所有其他部分都是在此基础上构建的。
+这里重点介绍：
 
-3. ECMA-262 到底定义了什么？(js的标准)
-    1. 语法,类型,语句,关键字,保留字,操作符,全局对象;ECMAScript 只是对实现这个规范描述的所有方面的一门语言的称呼
-4. 文档对象模型（DOM，Document Object Model）是一个应用编程接口（API），用于在HTML 中使
-用扩展的XML。DOM 将整个页面抽象为一组分层节点。HTML 或XML 页面的每个组成部分都是一种
-节点，包含不同的数据。比如下面的HTML 页面：
-5. 什么是javaScript?
-JavaScript 是一门用来与网页交互的脚本语言，包含以下三个组成部分。
-  ECMAScript：由ECMA-262 定义并提供核心功能。
-  文档对象模型（DOM）：提供与网页内容交互的方法和接口。
-  浏览器对象模型（BOM）：提供与浏览器交互的方法和接口。
-JavaScript 的这三个部分得到了五大Web 浏览器（IE、Firefox、Chrome、Safari 和Opera）不同程度
-的支持。所有浏览器基本上对ES5（ECMAScript 5）提供了完善的支持，而对ES6（ECMAScript 6）和
-ES7（ECMAScript 7）的支持度也在不断提升。这些浏览器对DOM 的支持各不相同，但对Level 3 的支
-持日益趋于规范。HTML5 中收录的 BOM 会因浏览器而异，不过开发者仍然可以假定存在很大一部分
-公共特性。
+1. **基础语法**：
+   - 学习变量声明（`var`, `let`, `const`）。
+   - 理解数据类型（字符串、数字、布尔值、null、undefined、对象、符号）。
+   - 掌握运算符（算术运算符、比较运算符、逻辑运算符、赋值运算符等）。
+   - 学习条件语句（`if`, `else`, `switch`）。
+   - 学习循环（`for`, `while`, `do...while`）。
 
-1. let 跟var 的作用差不多，let声明的范围是块作用域，而var 声明的范围是函数作用域。块作用域是函数作用域的子集，let 声明的变量不会在作用域中被提升
+2. **函数**：
+   - 理解函数声明和函数表达式。
+   - 学习参数传递和返回值。
+   - 掌握匿名函数以及立即执行函数表达式（IIFE）。
+   - 学习闭包的概念和应用。
 
-与var 关键字不同，使用let 在全局作用域中声明的变量不会成为window 对象的属性（var 声
-明的变量则会）
-迭代变量保存的是导致循环退出的值在之后执行超时逻辑时，所有的i 都是同一个变量，因而输出的都是同一个最终值
+3. **对象和原型**：
+   - 理解JavaScript中的对象创建和使用。
+   - 学习原型链和继承。
+   - 掌握构造函数和类。
+
+4. **数组和集合**：
+   - 学习数组的创建、操作和迭代方法。
+   - 了解Set、Map、WeakMap和WeakSet等集合类型。
+
+5. **异步编程**：
+   - 理解同步和异步的概念。
+   - 学习回调函数和Promise。
+   - 掌握async/await语法。
+   - 了解生成器函数（Generators）。
+
+6. **错误处理**：
+   - 学习try...catch...finally语句。
+   - 理解异常处理和错误传播。
+
+7. **ES6+新特性**：
+   - 学习let和const关键字。
+   - 理解箭头函数。
+   - 学习模板字符串。
+   - 掌握解构赋值。
+   - 了解默认参数、rest参数和spread操作符。
+   - 学习ES6引入的新数据结构（如Set、Map）。
+   - 理解Promises和生成器函数。
+   - 学习async/await语法。
+
+8. **代码组织和模块化**：
+   - 学习编写可读和可维护的代码。
+   - 理解模块化编程的概念。
+   - 学习CommonJS、AMD、UMD和ES模块。
+
+## 文档对象模型（DOM）
+
+DOM（Document Object Model）是一个与平台和语言无关的接口，允许程序和脚本访问和操作 HTML 和 XML 文档的内容、结构和样式。DOM 是 Web 编程的重要组成部分，它使得 JavaScript 可以与 HTML 文档进行交互。
+
+## 浏览器对象模型（BOM）
+
+BOM（Browser Object Model）提供了与浏览器窗口和浏览器对象进行交互的接口。BOM 允许 JavaScript 控制浏览器的一些功能，如弹出新窗口、导航到新的 URL、获取和设置浏览器窗口的尺寸等。
+事件处理：JavaScript 可以响应用户的操作（如点击、键入等）以及浏览器的事件（如页面加载完成、窗口大小改变等）。事件处理是 Web 编程的核心功能，它使得网页可以动态地响应用户和浏览器的交互。
+
+## Ajax
+
+Ajax（Asynchronous JavaScript and XML）是一种使用 JavaScript 异步发送网络请求和处理响应的技术。Ajax 可以实现与服务器的实时通信，从而实现动态的网页内容更新，而无需重新加载整个页面。
+
+## ECMAScript
+
+ECMAScript 是 JavaScript 语言的标准规范。它定义了 JavaScript 的语法、数据类型、运算符、控制结构等核心特性。不同的 JavaScript 引擎（如 V8、SpiderMonkey 等）可以根据 ECMAScript 标准实现 JavaScript 语言。
+
+## Node.js
+
+Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行时环境。它允许在服务器端运行 JavaScript 代码，从而实现服务器端的脚本编程。Node.js 提供了许多与文件系统、网络通信等相关的模块，使得 JavaScript 可以用于构建后端应用程序。
+
+## 前端框架和库
+
+随着 Web 开发的发展，出现了许多用于简化开发过程的前端框架和库，如 jQuery、React、Vue、Angular 等。这些框架和库提供了丰富的功能和工具，使得开发人员可以更高效地构建复杂的 Web 应用程序。
+
+这里我们只介绍Core
