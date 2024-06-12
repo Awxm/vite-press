@@ -354,6 +354,7 @@ defineProps({
 ```
 
 ```vue
+
 <script setup lang="ts">
 defineProps<{
   title?: string

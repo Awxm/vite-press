@@ -36,6 +36,7 @@ export default {
         {
             items: [
                 { text: '事件循环', link: '/duyi-yuan/event-loop' },
+                { text: '浏览器渲染原理', link: '/duyi-yuan/web-render' },
             ]
         }
     ],
