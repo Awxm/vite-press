@@ -53,3 +53,16 @@ function isPromise(obj) {
 }
 
 ```
+
+```js
+promise.resolve()
+.then(()=>{
+    console.log(1)
+    return promise.resolve(2)
+})
+.then(res=>{
+console.log(res)
+})
+// 这里有个问题需要注意
+// then返回的是promise的时候 then的状态应该由promise的状态决定 执行过程应该是promise.resolve(2).then(()=>{完成then})放入为队列，v8源码中使用的是EnqueueMicrotask(task.context, task)
+```
