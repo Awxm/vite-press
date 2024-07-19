@@ -582,13 +582,57 @@ CSS中的过渡（transition）和动画（animation）都是用于在网页上*
 
 ### javascript 有数据类型有哪些?
 
-1. String、Boolean、Number、Null、Undefined、 bigint、Symbol Object
+原始数据类型
+
+String、Boolean、Number、Null、Undefined、 bigint、Symbol
+
+引用数据类型
+
+Object、Array、Function、Date、RegExp、Error
+
+原始数据类型是不可变的，代表基本的数据值；对象数据类型是可变的，代表更复杂的数据结构和功能
 
 ### javascript 有哪些引用类型?
 
+扩展上面 Map、Set、WeakMap、WeakSet
+
+1. Object：基础对象类型。  
+2. Array：有序集合。
+3. Function：可执行代码块。
+4. Date：日期和时间。
+5. RegExp：正则表达式。
+6. Error：错误对象。
+7. Map：键值对集合，键值可以是任意数据类型。
+8. Set：唯一值集合。
+9. WeakMap：弱引用键的 Map。
+10. WeakSet：仅存储对象的弱引用 Set。
+
 ### 如何判断 javascript 的数据类型?
 
-### 怎么判断两个对象相等?如何判断空对象?
+1. 使用 typeof 运算符typeof 运算符可以用来判断**基本数据类型**（原始数据类型）和函数的类型。
+2. 使用 instanceof 运算符,instanceof 运算符可以用来判断对象是否是某个构造函数的实例。这对于判断对象数据类型特别有效。
+3. 使用 Array.isArray() 方法专门用于判断一个值是否为数组。
+4. 使用 Object.prototype.toString.call() 方法可以用来准确判断数据的具体类型，包括区分 null 和 object。
+5. 使用 constructor 属性可以用于检查对象的构造函数，但它可能会被重写，因此并不总是可靠。
+6. 判断是否为 null,由于 typeof null 返回 "object"，我们可以使用特定检查来判断一个值是否为 null。
+
+* typeof：适用于基本数据类型（Number, String, Boolean, Undefined, Symbol, BigInt）和函数。
+* instanceof：适用于对象和自定义类的实例。
+* Array.isArray()：专门判断数组。
+* Object.prototype.toString.call()：最准确的判断方法，适用于各种类型。
+* constructor 属性：可用于对象类型，但可能不可靠。
+* 特定检查：用于判断 null 值。
+
+### 怎么判断两个对象相等?
+
+### 如何判断空对象?
+
+1. Reflect.ownKeys()
+2. Object.keys()
+3. Object.getOwnPropertyNames()
+4. Object.entries()
+5. JSON.stringify()
+6. for...in
 
 ### 0.1+0.2 为什么不等于 0.3 ?(解释原理)
 
