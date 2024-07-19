@@ -17,7 +17,7 @@ export default {
             items: [
                 { text: '语法、数据类型、流程控制、错误处理', link: '/javaScript/grammar_and_types_and_control_flow_and_error_handling' },
                 { text: '循环、迭代、函数、表达式、运算符号', link: '/javaScript/loop_iteration_function_expression_operation_symbol' },
-                { text: '数字、日期、文本', link: '/javaScript/chapter3' },
+                { text: '数字、日期、文本', link: '/javaScript/number_and_dates_text_formatting' },
                 { text: '索引集合类、带键的集合、对象、类', link: '/javaScript/chapter3' },
                 { text: 'Promise', link: '/javaScript/promise' },
                 { text: '迭代器和生成器', link: '/javaScript/chapter3' },
