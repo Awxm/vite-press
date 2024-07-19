@@ -462,9 +462,121 @@ CSS中的过渡（transition）和动画（animation）都是用于在网页上*
 内边距和边框：可以设置上下左右的内边距和边框。  
 可包含其他块元素和行内元素。  
 
+行内元素：  
+不独占一行：行内元素不会在其前后自动换行。  
+宽度：仅占据内容所需的宽度。  
+高度：仅占据内容所需的高度。  
+内边距和边框：只能设置左右的内边距和边框，上下的内边距和边框可能会影响布局但不会改变行高。
+不能包含块元素：只能包含文本或其他行内元素  
+
+主要特点  
+外部资源：显示内容通常是外部资源（如图像、视频、表单元素等）。  
+默认尺寸：由其内容的固有尺寸决定，但可以通过CSS修改。  
+具体表示：浏览器会根据元素类型和内容进行具体表示。
+
+#### 常见元素
+
+```html
+<!-- 块元素 -->
+<div>, <p>, <h1> - <h6>, <ul>, <ol>, <li>, <table>, <header>, <footer>, <section>, <article>, <nav>, <aside>, <blockquote>, <form>
+<!-- 常见行内元素 -->
+ <span>, <a>, <strong>, <em>, <img>, <br>, <input>, <label>, <code>, <b>, <i>, <u>, <small>, <sub>, <sup>, <time>, <mark>, <q>, <cite>, <abbr>, <dfn>
+<!-- 置换元素 -->
+ <img>, <input>, <textarea>, <select>, <object>, <video>, <embed>, <iframe>, <canvas>
+
+```
+
+块元素：独占一行，宽度默认100%，可以包含块和行内元素。  
+行内元素：共享一行，仅占内容宽度，不能包含块元素。  
+置换元素：由外部资源决定内容和尺寸，显示具体内容。  
+
 ### 44. 多行元素的文本省略号如何实现?
 
-### 46. 文档类型作用?严格模式与混杂模式如何区分?它们有何意义?
+``` html
+  <div class="ellipsis">
+    The text should end with an ellipsis after the specified number of lines.
+    The text should end with an ellipsis after the specified number of lines.
+    The text should end with an ellipsis after the specified number of lines.
+  </div>
+<!-- 方法一依赖于WebKit浏览器的特性，并结合其他CSS属性来实现。 -->
+  <style>
+    .ellipsis {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3; /* 这里指定显示的行数 */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.5; /* 根据需要调整行高 */
+      max-height: 4.5em; /* line-height * number of lines */
+    }
+  </style>
+  <!-- line-clamp 是一个较新的CSS属性，目前并非所有浏览器都完全支持。-->
+    <style>
+    .ellipsis {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-clamp: 3; /* 这里指定显示的行数 */
+      display: -webkit-box;
+    }
+  </style>
+  <!-- 使用 JavaScript -->
+    <style>
+    .ellipsis {
+      max-height: 4.5em; /* 控制最大高度，行高的倍数 */
+      overflow: hidden;
+      position: relative;
+    }
+    .ellipsis::after {
+      content: '...';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: white; /* 根据背景色调整 */
+    }
+  </style>
+   <script>
+    function addEllipsis() {
+      var element = document.getElementById('ellipsis');
+      var lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+      var maxHeight = parseFloat(getComputedStyle(element).maxHeight);
+      var maxLines = Math.floor(maxHeight / lineHeight);
+
+      while (element.scrollHeight > element.offsetHeight) {
+        element.textContent = element.textContent.replace(/\W*\s(\S)*$/, '...');
+      }
+    }
+
+    addEllipsis();
+  </script>
+```
+
+### 45. 文档类型作用?严格模式与混杂模式如何区分?它们有何意义?
+
+#### 文档类型（Doctype）
+
+1. 触发浏览器模式：决定浏览器使用何种渲染模式来解析和呈现网页。
+2. 文档标准化：帮助确保HTML和CSS的正确解析，减少浏览器对代码的错误解释。
+3. 兼容性：提高不同浏览器之间的兼容性，确保网页在各个浏览器中的呈现尽可能一致。
+
+#### 区别
+
+严格模式是浏览器完全遵循W3C规范来解析和渲染HTML和CSS的模式。在这种模式下，浏览器严格按照标准来执行，从而确保网页在不同浏览器中表现一致。混杂模式是为了兼容早期网页设计而存在的。在这种模式下，浏览器会模仿上世纪90年代及2000年早期的非标准行为，以确保旧网页能够正确显示。这种模式会导致一些CSS和JavaScript行为的差异，从而可能影响现代网页的表现。
+
+1. 完整的HTML5 Doctype（例如 <!DOCTYPE html>）会触发严格模式。
+2. 缺失或不完整的Doctype声明会触发混杂模式。
+
+#### 意义
+
+严格模式的意义  
+一致性：确保网页在不同浏览器中的表现一致，减少跨浏览器的差异。  
+现代标准：允许使用现代HTML和CSS功能，提升网页的功能和表现。  
+调试和维护：遵循标准的代码更容易调试和维护，减少非标准行为导致的问题。  
+
+混杂模式的意义  
+兼容性：帮助旧网页在现代浏览器中正常显示，避免因旧网页不符合现代标准而导致的渲染问题。  
+渐进增强：提供一种向后兼容的方式，使得过渡到现代标准变得更平滑。  
 
 ## JAVASCRIPT
 
