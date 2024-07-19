@@ -3,7 +3,7 @@ export default [
         text: '文档',
         items: [
             { text: '语言', link: '/javaScript/' },
-            { text: '样式', link: '/style/' },
+            { text: '样式', link: '/style/', },
             { text: '浏览器', link: '/style/' },
             { text: '网络 http', link: '/http/status-code' },
             { text: '框架', link: '/style/' },

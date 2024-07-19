@@ -8,6 +8,9 @@ hero:
   tagline: 
   actions:
     - theme: brand
+      text: 进入
+      link: /javaScript/
+    - theme: alt
       text: 红宝书
       link: /red-treasure-book/
 

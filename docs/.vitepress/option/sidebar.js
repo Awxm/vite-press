@@ -19,7 +19,7 @@ export default {
                 { text: '循环、迭代、函数、表达式、运算符号', link: '/javaScript/loop_iteration_function_expression_operation_symbol' },
                 { text: '数字、日期、文本', link: '/javaScript/chapter3' },
                 { text: '索引集合类、带键的集合、对象、类', link: '/javaScript/chapter3' },
-                { text: 'Promise', link: '/javaScript/chapter3' },
+                { text: 'Promise', link: '/javaScript/promise' },
                 { text: '迭代器和生成器', link: '/javaScript/chapter3' },
                 { text: '客户端 Web API', link: '/javaScript/chapter3' },
                 { text: 'JavaScript 数据结构', link: '/javaScript/chapter3' },
@@ -58,6 +58,10 @@ export default {
                 { text: '了解javaScript', link: '/blog/chapter2' },
                 { text: 'javaScript基本概念', link: '/blog/chapter3' }
             ]
+        },
+        {
+            text: 'BFC',
+            link: '/style/bfc'
         }
     ],
     '/nginx/': [
