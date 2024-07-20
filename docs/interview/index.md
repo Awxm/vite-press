@@ -785,27 +785,145 @@ padStart(2, '0')：// 将单数字符串前面补零，使其总长度为2位。
 
 ### 什么是类数组(伪数组)，如何将其转化为真实的数组?
 
-### 如何遍历对象的属性?7
+是指拥有类似数组的特性（如length属性和通过索引访问元素），但不具备数组的方法（如push、pop等）的对象。常见的类数组对象包括**arguments**对象、DOM方法返回的**NodeList**、以及**HTMLCollection**。具有的特性是拥有length属性、通过索引（如obj[0]）访问元素。
+转换方法
+
+1. Array.prototype.slice.call
+2. Array.from
+3. 使用扩展运算符
+
+### 如何遍历对象的属性?
+
+1. for...in 循环与 Object.getOwnPropertySymbols()
+2. Reflect.ownKeys()
+3. Object.getOwnPropertyNames() 获取所有属性名称（包括不可枚举的属性）。
+4. 使用 Object.entries() 和 Object.getOwnPropertySymbols()
 
 ### 如何给一个按钮绑定两个 onclick 事件?
 
+1. 直接在 HTML 中定义多个 onclick 处理程序
+2. addEventListener
+
+```js
+onclick="firstHandler(); secondHandler();"
+```
+
 ### 变量提升是什么?与函数提升的区别?
+
+变量提升：变量声明被提升到作用域顶部，但赋值不提升。var 声明的变量在提升时会被初始化为 undefined，而 let 和 const 声明的变量在提升时会进入暂时性死区，直到声明语句为止。
+
+函数提升：函数声明整个被提升，包括函数体，可以在函数声明前调用函数。函数表达式不会被提升。
 
 ### 什么是作用域链?如何延长?
 
+1. 在JavaScript中，作用域链（Scope Chain）是用来解析变量标识符的一个机制。它决定了程序在运行时如何查找变量。作用域链是由多个作用域（通常是函数作用域和块作用域）按照其嵌套层级排列而成的一个链条。
+
+原理
+
+当代码在某个执行上下文中（如函数或全局上下文）执行时，会创建一个作用域链来解析标识符。作用域链是由当前执行上下文的变量对象（Variable Object）加上其父上下文的变量对象，依此类推，直到全局上下文的变量对象组成的。
+
+如何延长 ：使用块作用域（ES6）
+
 ### 如何实现数组的随机排序?
+
+1. Fisher-Yates 洗牌算法：这是实现数组随机排序的最推荐方法，保证了真正的随机性。
+2. sort() 方法：使用sort()方法与随机比较函数实现随机排序虽然简单，但不保证真正的随机性，不推荐在需要严格随机性场合使用。  
+
+```JS
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        // 生成一个0到i之间的随机整数
+        const j = Math.floor(Math.random() * (i + 1));
+        // 交换元素array[i]和array[j]
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+const arr = [1, 2, 3, 4, 5, 6];
+const shuffledArr = shuffleArray(arr);
+console.log(shuffledArr); // 输出随机排序后的数组
+
+```
 
 ### dom 节点的 Attribute 和 Property 有何区别?
 
+Attributes 是在HTML标签中定义的内容，它们是元素的初始值，Attributes 存储在HTML标签中，当浏览器解析HTML文档时，这些属性值会被用于初始化对应的DOM节点的Properties。通过 getAttribute() 和 setAttribute() 方法可以访问和修改Attributes。
+
+Properties 是DOM对象的属性，表示元素的当前状态。它们是动态的，可能会随用户交互而改变。Properties 是存储在DOM对象中的JavaScript属性，通过直接访问和修改DOM对象的属性来操作Properties
+
+#### 区别
+
+初始化：
+
+Attributes 是在HTML中定义的，它们用于初始化DOM对象的Properties。  
+Properties 是DOM对象的属性，是由浏览器解析HTML后生成的。
+
+动态性：
+
+Attributes 通常不会在页面加载后发生变化，除非通过 setAttribute 方法显式修改。
+Properties 是动态的，可能会随用户交互或JavaScript代码的执行而变化。
+
+访问方式：
+
+Attributes 通过 getAttribute() 和 setAttribute() 方法访问和修改。
+Properties 通过直接访问DOM对象的属性来访问和修改。
+数据类型：
+
+Attributes 通常是字符串类型，因为它们来源于HTML文本。
+Properties 可以是任意类型，例如布尔值、对象等。
+
+```html
+  <input id="myInput" type="text" value="attribute value">
+
+    <script>
+        const input = document.getElementById('myInput');
+
+        // 获取属性值
+        console.log(input.getAttribute('value')); // 输出: attribute value
+
+        // 获取属性值
+        console.log(input.value); // 输出: attribute value
+
+        // 修改属性值
+        input.setAttribute('value', 'new attribute value');
+        console.log(input.getAttribute('value')); // 输出: new attribute value
+
+        // 修改属性值
+        input.value = 'new property value';
+        console.log(input.value); // 输出: new property value
+        console.log(input.getAttribute('value')); // 输出: new attribute value (仍然是旧的属性值)
+    </script>
+```
+
 ### dom 结构操作怎样添加、移除、移动、复制、创建和査找节点?
 
+添加节点：使用 appendChild()将一个节点添加到指定节点的子节点列表的末尾。、insertBefore()在指定节点之前插入一个新节点。、innerHTML直接设置一个元素的HTML内容（包括子元素）。。
+移除节点：使用 removeChild()、remove()。
+移动节点：使用 appendChild() 将节点从一个父节点移动到另一个父节点。
+复制节点：使用 cloneNode()。  
+创建节点：使用 createElement() 和 createTextNode()。  
+查找节点：使用 getElementById()、getElementsByClassName()、getElementsByTagName ()、querySelector()、querySelectorAll()。
+
 ### 如何让事件先冒泡后捕获?
+
+1. 在DOM事件模型中，事件传播有两个主要阶段：捕获阶段（Capturing Phase）和冒泡阶段（Bubbling Phase）。事件首先从文档的根节点开始，通过捕获阶段向下传播，最终到达事件目标节点；然后，事件在冒泡阶段从目标节点向上返回到根节点。
+2. 默认事件传播顺序
+捕获阶段：从文档根节点向下传播，直到事件目标。
+目标阶段：事件到达目标节点。
+冒泡阶段：从目标节点向上传播，直到文档根节点。
+如何实现事件先冒泡后捕获
+在标准DOM事件模型中，事件的传播顺序是不可改变的：先捕获，再目标，再冒泡。你不能直接改变事件的传播顺序使其“先冒泡后捕获”，因为这是浏览器的设计规范和事件模型的工作方式。
 
 ### JavaScript 动画和 CSS3 动画有什么区别?
 
 ### dom 的事件模型
 
 ### 事件三要素是什么?
+
+事件类型：指事件的种类，如 click、keydown 等。
+事件目标：指事件实际发生的DOM元素，可以通过 event.target 获取。
+事件处理程序：定义了事件发生时应该执行的代码块，通过 addEventListener 注册。
 
 ### 获取元素位置?
 
@@ -840,6 +958,8 @@ padStart(2, '0')：// 将单数字符串前面补零，使其总长度为2位。
 ### var、let、const 之间的区别?暂时性死区如何理解?
 
 ### Class、extends 是什么，有什么作用?
+
+继承 继承class 的函数以及 数据项
 
 ### 什么是 JS 闭包
 
