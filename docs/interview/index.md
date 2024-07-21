@@ -917,7 +917,56 @@ Properties 可以是任意类型，例如布尔值、对象等。
 
 ### JavaScript 动画和 CSS3 动画有什么区别?
 
+1. 首先JavaScript 编写动画逻辑，通常使用 setInterval、setTimeout 或 requestAnimationFrame 等方法来实现。可以操作任何 DOM 属性，不仅限于样式属性，因此具有更大的灵活性。需要手动控制动画的每一步，如计算属性值、处理缓动函数等而CSS3 动画通过 CSS 的 transition 和 animation 属性来实现。transition 用于定义元素在状态变化时的过渡效果。animation 允许定义复杂的关键帧动画，可以通过 @keyframes 规则来设置不同时间点的样式变化。更适合简单的样式变换，尤其是那些可以通过 CSS 属性控制的动画效果。
+
+2. 从性能来说JavaScript 动画性能依赖于浏览器的 JavaScript 引擎和动画实现方式，如果动画复杂或需要频繁操作 DOM，可能会导致性能问题。requestAnimationFrame 可以提升性能，因为它能够与浏览器的重绘周期同步。而CSS3 动画通常性能更高，因为动画可以由浏览器的优化引擎（如 GPU）处理，减少了主线程的负载。浏览器对 CSS 动画进行了高度优化，特别是对于硬件加速的属性（如 transform 和 opacity）。
+3. 从使用场景来说JavaScript 动画适用于复杂的动画效果，尤其是那些需要精细控制或与用户交互紧密相关的动画。当动画需要与非样式属性变化、DOM 操作或业务逻辑结合时，JavaScript 是更好的选择。而CSS3 动画适用于简单的过渡效果和关键帧动画，如淡入淡出、位移、旋转、缩放等当动画只涉及样式变化且不需要与复杂的逻辑结合时，CSS3 动画更简单且性能更好。
+
+#### 案例
+
+```js
+// js
+
+const element = document.getElementById('animate');
+let pos = 0;
+function frame() {
+  pos++;
+  element.style.left = pos + 'px';
+  if (pos < 100) {
+    requestAnimationFrame(frame);
+  }
+}
+requestAnimationFrame(frame);
+
+//css
+/* 定义关键帧 */
+@keyframes move {
+  from { left: 0; }
+  to { left: 100px; }
+}
+
+/* 应用动画 */
+#animate {
+  position: relative;
+  animation: move 1s linear;
+}
+```
+
+于简单的动画效果，CSS3 动画更为推荐，因为其实现简单且性能更好。
+对于复杂的动画需求或需要与 JavaScript 逻辑紧密结合的情况，JavaScript 动画是更好的选择。
+
 ### dom 的事件模型
+
+要包括三个阶段：捕获阶段、目标阶段和冒泡阶段
+
+1. 捕获阶段（Capturing Phase）
+在捕获阶段，事件从文档的根节点向事件目标节点传播。这个阶段允许父节点在事件到达目标节点之前先处理事件。
+
+2. 目标阶段（Target Phase）
+在目标阶段，事件到达事件目标节点。此时，事件处理程序直接在事件目标节点上执行。
+
+3. 冒泡阶段（Bubbling Phase）
+在冒泡阶段，事件从目标节点向上级节点传播，直到文档的根节点。这个阶段允许父节点在事件已经在目标节点上处理之后再处理事件。
 
 ### 事件三要素是什么?
 
@@ -927,23 +976,324 @@ Properties 可以是任意类型，例如布尔值、对象等。
 
 ### 获取元素位置?
 
+1. getBoundingClientRect()方法返回元素的大小及其相对于视口的位置。
+2. offsetTop 和 offsetLeft 属性返回元素相对于其包含元素（最近的定位祖先）的顶部和左侧的距离。
+3. 如果想要获取鼠标事件相对于视口的位置，可以使用 event.clientX 和 event.clientY。
+4. event.pageX 和 event.pageY 返回鼠标事件相对于文档的位置，包括页面滚动的偏移量。
+5. scrollTop 和 scrollLeft 属性返回元素的滚动条位置。
+6. 假设你想要获取一个元素的大小及其相对于整个文档的位置，可以结合使用 getBoundingClientRect() 和页面的滚动偏移量：
+
 ### 如何绑定事件，如何解除事件?
+
+1. 在 JavaScript 中，绑定和解除事件监听器是通过 addEventListener 和 removeEventListener 方法来实现的。以下是详细的说明和示例：
+2. 绑定事件监听器使用 addEventListener 方法，可以将事件监听器绑定到一个元素上。它接受三个参数：事件类型、事件处理函数以及一个可选的选项对象或布尔值（用于指定事件捕获或冒泡阶段）。
+3. 解除事件监听器使用 removeEventListener 方法，可以从一个元素上移除事件监听器。它接受三个参数：事件类型、要移除的事件处理函数以及一个可选的选项对象或布尔值（必须与添加事件监听器时的选项相同）。
+补充：事件监听器选项第三个参数可以是一个选项对象，它提供更多的配置选项：
+
+capture：布尔值，是否在捕获阶段触发监听器。
+once：布尔值，表示监听器在触发一次后自动移除。
+passive：布尔值，表示监听器永远不会调用 preventDefault。  
+
+```js
+// 获取元素
+const button = document.getElementById('myButton');
+
+// 定义事件处理函数
+function handleClick(event) {
+  console.log('Button clicked!');
+}
+
+// 绑定点击事件
+button.addEventListener('click', handleClick);
+```
+
+#### 案例
+
+使用匿名函数
+
+如果在绑定事件时使用匿名函数，解除事件监听器时需要使用同一个匿名函数引用。通常情况下，这并不实际，因此推荐使用具名函数。
+
+```js
+// 获取元素
+const button = document.getElementById('myButton');
+
+// 绑定点击事件（匿名函数）
+button.addEventListener('click', function handleClick(event) {
+  console.log('Button clicked!');
+  
+  // 解除点击事件
+  button.removeEventListener('click', handleClick);
+});
+```
+
+捕获和冒泡
+
+可以通过第三个参数来指定事件处理函数是否在捕获阶段执行。如果第三个参数为 true，则在捕获阶段执行；如果为 false 或省略，则在冒泡阶段执行。
+
+```js
+// 获取元素
+const button = document.getElementById('myButton');
+
+// 定义事件处理函数
+function handleClick(event) {
+  console.log('Button clicked!');
+}
+
+// 在捕获阶段绑定点击事件
+button.addEventListener('click', handleClick, true);
+
+// 在捕获阶段解除点击事件
+button.removeEventListener('click', handleClick, true);
+
+```
+
+事件委托
+
+事件委托是一种常见的优化技术，通过将事件监听器绑定到父元素上，利用事件冒泡机制来处理子元素的事件。
+
+```js
+// 获取父元素
+const list = document.getElementById('myList');
+
+// 定义事件处理函数
+function handleItemClick(event) {
+  if (event.target && event.target.nodeName === 'LI') {
+    console.log('List item clicked!');
+  }
+}
+
+// 绑定点击事件到父元素
+list.addEventListener('click', handleItemClick);
+
+```
 
 ### 对事件委托的理解
 
+事件委托是一种常见的优化技术，通过将事件监听器绑定到父元素上，利用事件冒泡机制来处理子元素的事件。
+性能优化：当有许多子元素需要绑定事件处理器时，事件委托可以显著减少内存使用和提高性能。
+动态内容处理：事件委托允许处理将来动态添加到文档中的元素，而不需要重新绑定事件。
+
+```js
+// <ul id="myList">
+//   <li>Item 1</li>
+//   <li>Item 2</li>
+//   <li>Item 3</li>
+// </ul>
+
+// 获取父元素0
+const list = document.getElementById('myList');
+
+// 定义事件处理函数
+function handleItemClick(event) {
+  // 检查事件目标是否是 LI 元素
+  if (event.target && event.target.nodeName === 'LI') {
+    console.log('List item clicked:', event.target.textContent);
+  }
+}
+
+// 绑定点击事件到父元素
+list.addEventListener('click', handleItemClick);
+
+
+```
+
 ### setTimeout 和 setInterval 的区别及用法是什么?
+
+setTimeout 方法用于在指定的延迟（以毫秒为单位）后执行一次代码或函数。
+setInterval 方法用于在指定的时间间隔（以毫秒为单位）重复执行代码或函数，直到被取消为止。
+
+setTimeout: 适用于需要延迟执行一次的任务。例如，显示延迟消息、计时器等。
+setInterval: 适用于需要定期重复执行的任务。例如，轮询数据、动画、周期性更新等。
+
+阻塞和延迟: JavaScript 是单线程的，如果当前线程被阻塞，定时器的执行可能会被延迟。
+精度问题: 浏览器的定时器并不保证高精度，实际的执行时间可能会有所偏差，特别是在页面繁忙或被后台执行时。
 
 ### 岗位轮换 setTimeout 来实现 setInterval
 
 ### document.write 和 innerHTML 的区别?
 
+首先两个方法都可以用来在网页中插入 HTML 内容
+document.write 方法直接将内容写入 HTML 文档流。它通常用于在页面加载期间动态生成内容。使用 document.write 插入的内容会立即被解析并渲染到页面中。innerHTML 是一个属性，它允许读取或写入元素的 HTML 内容。通过设置 innerHTML，可以更新元素的内容而不会影响整个文档。它是现代 Web 开发中更常用的方法。
+
+#### write
+
+页面加载期间使用：document.write 通常用于页面加载期间。如果在页面加载完成后使用 document.write，它会清空整个文档，并重新写入新的内容。这会导致页面上的所有现有内容和事件处理器被删除。
+
+性能问题：document.write 会阻塞页面加载，可能影响性能，尤其是在加载外部资源时。
+
+现代开发中的局限性：在现代 Web 开发中，document.write 不常用，因其容易导致性能和维护性问题。
+
+#### innerHTML
+
+安全性问题：直接设置 innerHTML 可能会引入 XSS（跨站脚本）漏洞。如果内容来自用户输入或不可信来源，需要进行适当的过滤和转义。
+
+性能考虑：频繁使用 innerHTML 更新内容可能会导致性能问题，因为每次设置 innerHTML 都会导致浏览器重新解析和渲染元素的内容。
+
+保留事件处理器：更新 innerHTML 会删除元素内现有的事件处理器。如果需要保留事件处理器，应该使用其他方法（如 appendChild 或 insertAdjacentHTML）。
+
+#### 总结
+
+document.write：
+
+用于页面加载期间动态生成内容。
+会直接写入文档流，可能清空现有内容。
+现代开发中不常用，因其容易导致性能和维护性问题。
+
+innerHTML：
+
+用于读取或设置元素的 HTML 内容。
+不会影响整个文档，只更新指定元素的内容。
+更常用，但需要注意安全性和性能问题。
+
+在大多数情况下，innerHTML 是更安全和灵活的选择。对于动态生成内容，现代 Web 开发更倾向于使用 JavaScript 操作 DOM，如 innerHTML、appendChild、insertAdjacentHTML 等方法。
+
 ### 元素拖动如何实现，原理是怎样?
 
-### 什么是重绘(repaint)?什么是回流(reflow)?如何最小化重绘和回流?
+监听拖动开始事件：当用户按下鼠标或触摸屏幕时，记录初始位置。
+监听拖动进行事件：当用户移动鼠标或滑动手指时，更新元素的位置。
+监听拖动结束事件：当用户释放鼠标或手指时，结束拖动操作。
 
-### 解洪
+拖动开始：在 mousedown 或 touchstart 事件中，记录初始位置 (startX, startY) 和元素的当前位置 (initialX, initialY)。
+拖动进行：在 mousemove 或 touchmove 事件中，计算新的位置，更新元素的 left 和 top 样式。
+拖动结束：在 mouseup 或 touchend 事件中，标记拖动结束，恢复光标样式。
+
+确保元素的 CSS position 属性设置为 absolute、relative 或 fixed 以便能够移动。
+处理触摸事件时需要注意不同的触摸点和事件的细微差异。
+考虑将拖动逻辑封装到一个函数或类中，以便重用和维护。
 
 ### 延迟加载的方式有哪些?
+
+延迟加载（Lazy Loading）是一种优化技术，用于延迟加载非关键资源（如图像、脚本、样式表等），直到它们实际需要时再加载。这样可以加快初始页面加载速度，减少带宽消耗，提升用户体验
+
+#### 图像延迟加载
+
+使用 loading 属性
+现代浏览器支持 loading 属性，可以简单地实现图像的延迟加载。
+
+```js
+// <img src="image.jpg" loading="lazy" alt="Lazy Loaded Image">
+
+<img data-src="image.jpg" alt="Lazy Loaded Image" class="lazy">
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const lazyImages = document.querySelectorAll('img.lazy');
+    
+    if ('IntersectionObserver' in window) {
+        let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    let lazyImage = entry.target;
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImage.classList.remove('lazy');
+                    lazyImageObserver.unobserve(lazyImage);
+                }
+            });
+        });
+
+        lazyImages.forEach(function (lazyImage) {
+            lazyImageObserver.observe(lazyImage);
+        });
+    } else {
+        // Fallback for browsers without IntersectionObserver
+        let lazyLoad = function() {
+            for (let i = 0; i < lazyImages.length; i++) {
+                if (lazyImages[i].getBoundingClientRect().top <= window.innerHeight &&
+                    lazyImages[i].getBoundingClientRect().bottom >= 0 &&
+                    getComputedStyle(lazyImages[i]).display !== 'none') {
+                    lazyImages[i].src = lazyImages[i].dataset.src;
+                    lazyImages[i].classList.remove('lazy');
+                }
+            }
+
+            if (lazyImages.length === 0) { 
+                document.removeEventListener('scroll', lazyLoad);
+                window.removeEventListener('resize', lazyLoad);
+                window.removeEventListener('orientationchange', lazyLoad);
+            }
+        };
+
+        document.addEventListener('scroll', lazyLoad);
+        window.addEventListener('resize', lazyLoad);
+        window.addEventListener('orientationchange', lazyLoad);
+    }
+});
+</script>
+
+
+```
+
+#### 脚本延迟加载、动态加载脚本
+
+```js
+<!-- defer: 脚本会在 HTML 解析完成后执行，按顺序执行 -->
+<script src="script.js" defer></script>
+
+<!-- async: 脚本会在下载完成后立即执行，执行顺序不确定 -->
+<script src="script.js" async></script>
+
+// 动态加载脚本
+function loadScript(url, callback) {
+    let script = document.createElement('script');
+    script.src = url;
+    script.onload = callback;
+    document.head.appendChild(script);
+}
+
+loadScript('script.js', function() {
+    console.log('Script loaded and ready to use');
+});
+
+```
+
+#### 样式表延迟加载、延迟加载模块
+
+```js
+function loadStylesheet(url) {
+    let link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = url;
+    document.head.appendChild(link);
+}
+
+loadStylesheet('style.css');
+// 动态导入模块
+import('./module.js').then(module => {
+    module.doSomething();
+}).catch(err => {
+    console.error('Error loading module:', err);
+});
+```
+
+#### 使用外部库
+
+```js
+// lazysizes
+// lozad.js
+<img data-src="image.jpg" class="lozad" alt="Lazy Loaded Image">
+
+<script src="https://cdn.jsdelivr.net/npm/lozad@1.14.0/dist/lozad.min.js"></script>
+<script>
+const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();
+</script>
+
+```
+
+#### 内容延迟加载
+
+```html
+
+<div id="content"></div>
+<button id="loadButton">Load Content</button>
+
+<script>
+document.getElementById('loadButton').addEventListener('click', function () {
+    document.getElementById('content').innerHTML = '<p>This is the loaded content.</p>';
+});
+</script>
+
+```
 
 ### 垃圾回收机制有哪些?具体怎么如何执行?
 
