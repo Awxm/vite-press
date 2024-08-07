@@ -1357,7 +1357,29 @@ DOM 引用：如果保留了对 DOM 元素的引用（例如通过 JavaScript �
 
 ### ES6 的继承和 ES5 的继承有什么区别?
 
+实现方式
+ES5的继承主要通过原型链和构造函数来实现。‌具体来说，‌ES5的继承是通过修改子类的原型（‌prototype）‌来指向父类实例，‌或者通过构造函数中的call方法来调用父类的构造函数，‌从而实现继承。‌这种方式相对复杂，‌且容易引发一些问题，‌如方法覆盖等
+ES6引入了类的概念，‌通过class关键字定义类，‌使用extends关键字实现类之间的继承关系。‌这种方式更接近传统的面向对象编程，‌且语法更简洁、‌易于理解和维护
+语法差异：‌
+ES5中，‌继承通常涉及到对原型链的操作，‌如Object.create()、‌prototype属性的设置等，‌这些操作相对低级且容易出错。
+ES6的类语法提供了更高级别的抽象，‌通过class和extends关键字，‌可以更直观地表示类的继承关系。‌此外，‌super关键字的引入使得在子类中调用父类的方法变得更加简单和直接13。‌
+总的来说，‌ES6的继承机制通过引入类和extends关键字，‌提供了更直观、‌易于理解的继承方式，‌同时解决了ES5继承中存在的一些问题。‌
+
 ### var、let、const 之间的区别?暂时性死区如何理解?
+
+1. 全局污染
+2. 块级作用域
+3. TDZ暂时性死区（声明之前无法访问这个变量）
+4. 重复声明
+
+ES6中let 和 const 同样会被提升变量到代码块的顶部但是不会被赋予初始值（var 初始值 undefined）。在变量声明之前引用这个变量，将抛出引用错误（ReferenceError）。这个变量将从代码块一开始的时候就处在一个“暂时性死区”（后面在讲这个），直到这个变量被声明为止。
+
+在 ES6 之前，我们使用 var 声明变量，var 声明的变量会被提升到当前作用域的顶部。这意味着我们可以在声明之前使用变量，但这可能会导致意想不到的行为。
+
+为了解决这个问题，ES6 引入了 let 和 const 来声明变量。与 var 不同，let 和 const 声明的变量不会被提升。  
+在 let 或 const 声明语句之前访问这些变量会导致程序抛出 ReferenceError 错误。这个范围被称为暂时性死区。  
+
+暂时性死区的**目的**是提高代码的**可读性**和**可预测性**，确保变量在使用之前已经声明并**初始化**。这有助于避免因变量提升导致的意外行为和潜在的错误。
 
 ### Class、extends 是什么，有什么作用?
 
@@ -1365,81 +1387,939 @@ DOM 引用：如果保留了对 DOM 元素的引用（例如通过 JavaScript �
 
 ### 什么是 JS 闭包
 
+是一个函数以及其捆绑的词法环境的引用的组合，闭包其实是可以从内部函数访问外部函数的作用域
+闭包会随着函数的创建而被同时创建。
+
+闭包 = 内层函数 + 引用的外层函数变量
+
 ### 说一下类的创建和继承，列举一下你所知道的继承方式
 
 ### 如何解决异步回调地狱
 
+1. 使用 Promises
+2. 使用 Async/Await
+
 ### 说一下图片的懒加载和预加载
+
+懒加载（Lazy Loading）
+懒加载是一种优化技术，主要用于在页面加载时延迟非立即可见元素（如图片和视频）的加载。其核心思想是在用户滚动到这些元素进入视口（可视区域）前不加载它们，从而减少初始页面加载时间和资源消耗。这在长页面或者包含大量图片的页面上特别有效。
+
+工作原理：
+
+图片元素的 src 属性在初始时并不包含实际的图片URL，而是设置为占位符（如透明像素或低分辨率预览图）。
+当用户滚动页面时，JavaScript 监听滚动事件并检查哪些图片进入了视口。
+对于进入视口的图片，将其 src 属性更新为实际的图片URL，从而触发图片的加载。
+优点：
+
+减少页面加载时间。
+节省带宽，尤其是在移动设备上。
+改善用户体验，尤其是对于低速网络连接的用户。
+
+预加载（Preloading）
+预加载是指在页面加载过程中，提前加载一些关键资源，确保当用户需要访问这些资源时，它们已经就绪，从而提供更快的响应速度和更好的用户体验。预加载通常用于关键路径资源，如关键CSS、JavaScript 文件，以及即将使用的图片。
+
+工作原理：
+
+<link rel="preload"> 标签可以在HTML头部使用，告诉浏览器优先加载指定资源。
+浏览器会尽早开始下载这些资源，即使它们在文档流中较后才被引用。
+
+优点：
+
+加快关键资源的加载速度。
+提升首屏渲染速度和页面交互速度。
+减少用户的等待时间，增强页面的感知性能。
+懒加载与预加载的区别
+目标不同：懒加载是为了延迟非立即可见元素的加载，而预加载是为了提前加载关键资源。
+触发条件不同：懒加载依赖于用户行为（如滚动），而预加载则是在页面加载时立即触发。
+适用场景不同：懒加载适用于长页面中的非关键图片，预加载适用于关键路径上的资源。
 
 ### mouseover和mouseenter的区别
 
+mouseover 和 mouseenter 都是鼠标事件，它们会在鼠标指针移动到一个元素上时触发。但是，这两个事件在处理方式上有显著的不同：
+
+事件冒泡：
+
+mouseover：这个事件会冒泡。这意味着当你将鼠标移到一个元素上时，不仅该元素会被触发 mouseover 事件，而且其所有祖先元素也会依次触发 mouseover 事件，直到文档根元素。
+mouseenter：这个事件不会冒泡。当你将鼠标移到一个元素上时，只有该元素会触发 mouseenter 事件，而不会影响其父元素或祖先元素。
+触发时机：
+
+mouseover：当鼠标指针移动到元素或其任何子元素上时都会触发。
+mouseenter：只在鼠标指针直接移动到该元素上时触发，如果鼠标指针从一个子元素移动到另一个子元素，只要没有离开过该元素，就不会再次触发 mouseenter。
+由于 mouseenter 不会冒泡，因此在某些情况下，它可能提供更精确的控制，特别是在处理复杂的DOM结构时，避免了不必要的事件触发。然而，mouseover 的冒泡特性使得它在需要检测整个元素树的鼠标状态时更加有用。
+
 ### new 操作符做了哪些事情
+
+创建新对象：
+
+new 首先会创建一个全新的空对象。
+设置原型链：
+
+新创建的对象的原型 (**proto**) 会被设置为构造函数的 prototype 属性所指向的对象。这样就建立了原型链，新对象可以继承构造函数原型上的方法和属性。
+绑定 this 并执行构造函数：
+
+构造函数会被调用，此时 this 关键字被绑定到新创建的对象上。构造函数内部的代码将被执行，可以为新对象添加属性和方法。
+返回新对象：
+
+如果构造函数没有显式返回一个对象，则 new 操作符会自动返回新创建的对象。如果构造函数返回了一个对象，那么 new 操作符会返回这个对象，而不是新创建的那个。
 
 ### 改变函数内部 this 指针的指向函数(bind，apply，call 的区别)，内在分别是如何实现的?
 
+1. call
+功能：call 方法立即调用一个函数，并允许你传入参数列表。
+语法：function.call(thisArg, arg1, arg2, ...argN)
+内部实现：call 方法首先会检查传入的第一个参数 thisArg，然后将函数的 this 值设置为 thisArg（如果 thisArg 是 null 或 undefined，则默认为全局对象）。之后，它会按照传入的参数列表顺序将参数传递给函数并执行。
+2. apply
+功能：与 call 类似，apply 也立即调用一个函数，但它接受一个参数数组或类数组对象作为参数。
+语法：function.apply(thisArg, [argsArray])
+内部实现：apply 方法同样会检查第一个参数 thisArg，并将其设置为函数的 this 值。第二个参数是一个数组或类数组对象，其中的元素会被解构并作为单独的参数传递给函数。
+3. bind
+功能：bind 方法并不会立即调用函数，而是返回一个新的函数，这个新函数的 this 值已经被绑定到提供的值上。
+语法：function.bind(thisArg, arg1, arg2, ...argN)
+内部实现：bind 方法创建一个新的函数，当这个新函数被调用时，它的 this 值会被设置为 bind 方法调用时传入的第一个参数 thisArg。此外，bind 方法还可以预先传递一些参数给新函数。
+内部实现概述
+这些方法的内部实现通常涉及到 JavaScript 的特殊机制，如 Function.prototype.call 的底层机制。在引擎层面，它们利用了 JavaScript 的灵活性来修改函数调用上下文。例如，call 和 apply 通过直接修改函数的 this 值来调用函数，而 bind 则创建一个新的函数包装器，该包装器在调用时会调整 this 的指向。
+
 ### js 的各种位置，比如 clientHeight, scrollHeight, offsetHeight ,以及 scrollTop, offsetTop, 的区别?
+
+1. clientHeight
+描述：表示元素的可视高度，不包括边框（border）、滚动条和外边距（margin）。
+用途：通常用于获取元素的可用显示区域的高度。
+2. scrollHeight
+描述：表示元素的总高度，包括因为溢出而不可见的部分。
+用途：用于确定元素是否具有垂直滚动条，或计算元素的完整高度。
+3. offsetHeight
+描述：表示元素的高度，包括内容、内边距（padding）、边框（border），但不包括外边距（margin）。
+用途：用于获取元素的实际占用空间的高度。
+4. scrollTop
+描述：表示元素垂直滚动条的滚动距离，即元素内容相对于容器顶部的位置。
+用途：用于控制或查询元素的滚动位置。
+5. offsetTop
+描述：表示元素相对于最近的定位祖先元素（positioned ancestor）的偏移量，即元素顶部边缘到最近定位祖先元素顶部边缘的距离。
+用途：用于计算元素在页面中的确切位置。
+总结
+clientHeight 和 scrollHeight 主要关注元素的尺寸，前者是可视部分，后者是全部。
+offsetHeight 包括了边框和内边距，提供了元素实际占用的空间大小。
+scrollTop 用于处理滚动，可以用来控制或查询元素的滚动状态。
+offsetTop 用于定位，帮助我们理解元素在页面中的位置。
 
 ### 异步加载 JS 的方法
 
+1. defer 异步加载，但要等到dom文档全部解析完才会被执行。只有IE能用，也可以将代码写到内部。
+2. async 异步加载，加载完就执行，async只能加载外部脚本，不能把js写在script标签里。
+3. 创建script，插入到DOM中，加载完毕后callback。可以解决不同浏览器的兼容问题。
+
 ### Ajax 解决浏览器缓存问题
+
+1.添加时间戳：在请求的 URL 后添加时间戳参数，使每次请求的 URL 不同，强制浏览器重新获取数据。
+2.设置缓存控制：在响应头中设置缓存控制参数，如 Cache-Control、Expires，指示浏览器缓存数据的有效期限。
+3.使用 POST 请求：POST 请求不会被浏览器缓存，每次请求都会重新获取数据。
+4.使用 HTTP 动词：使用不同的 HTTP 动词，如 PUT、DELETE，可以使浏览器将其视为新的请求，重新获取数据。
+5.使用动态 URL：使用动态 URL，如添加随机数参数，使每次请求的 URL 不同，强制浏览器重新获取数据。
 
 ### 节流和防抖
 
+防抖和节流都是用于控制事件触发频率的前端性能优化技术，它们的主要区别在于触发事件的时机和执行回调函数的次数。
+
+防抖（Debounce）是指在事件触发后，延迟一定时间再执行回调函数。如果在延迟时间内再次触发了该事件，则重新计时。简单来说，防抖就是将多次高频率触发的事件合并为一次执行。防抖的应用场景包括输入框搜索联想和窗口大小调整等。
+
+节流（Throttle）是指在一定时间内只能触发一次事件。如果在指定的时间内再次触发了该事件，则忽略该次触发。简单来说，节流就是限制事件的触发频率。节流的应用场景包括页面滚动事件和鼠标移动事件等。
+防抖和节流都可以通过使用setTimeout实现，目的都是降低回调执行频率，节省计算资源。防抖关注一定时间连续触发的事件，只在最后执行一次，而节流一段时间内只执行一次。
+
 ### eval 是做什么的
+
+eval是Javascript内置函数，用于计算字符串表达式的值。例如eval("2+3") 返回的是5。eval(string)函数可计算某个字符串，并执行其中的JavaScript代码。 参数：string；描述：要计算的字符串，其中含有要计算的JavaScript表达式或要执行的语句。 jscript中的用法很相似。
 
 ### 对象深拷贝的简单实现
 
+使用 JSON.parse 和 JSON.stringify这种方法适用于不包含函数、undefined 和循环引用的对象。
+
+```javascript
+const originalObject = { a: 1, b: { c: 2 } };
+const deepCopiedObject = JSON.parse(JSON.stringify(originalObject));
+
+console.log(deepCopiedObject); // { a: 1, b: { c: 2 } }
+
+```
+
+使用递归函数，使用 structuredClone 方法
+
 ### 实现 jS 中所有对象的深度克隆（包装对象，Date 对象，正则对象）
+
+```javascript
+
+function deepClone(obj, hash = new WeakMap()) {
+  // 基本类型直接返回
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  // 处理循环引用
+  if (hash.has(obj)) {
+    return hash.get(obj);
+  }
+
+  // 处理 Date 对象
+  if (obj instanceof Date) {
+    return new Date(obj);
+  }
+
+  // 处理正则表达式对象
+  if (obj instanceof RegExp) {
+    return new RegExp(obj);
+  }
+
+  // 处理包装对象
+  if (obj instanceof Boolean) {
+    return new Boolean(obj);
+  }
+  if (obj instanceof Number) {
+    return new Number(obj);
+  }
+  if (obj instanceof String) {
+    return new String(obj);
+  }
+
+  // 处理数组
+  if (Array.isArray(obj)) {
+    const arrCopy = [];
+    hash.set(obj, arrCopy);
+    obj.forEach((item, index) => {
+      arrCopy[index] = deepClone(item, hash);
+    });
+    return arrCopy;
+  }
+
+  // 处理普通对象
+  const objCopy = {};
+  hash.set(obj, objCopy);
+  Object.keys(obj).forEach(key => {
+    objCopy[key] = deepClone(obj[key], hash);
+  });
+  return objCopy;
+}
+
+// 测试
+const originalObject = {
+  a: 1,
+  b: new Date(),
+  c: /abc/g,
+  d: new Boolean(true),
+  e: new Number(123),
+  f: new String('hello'),
+  g: [1, 2, { h: 3 }],
+  i: { j: { k: 4 } },
+  l: null
+};
+
+const deepCopiedObject = deepClone(originalObject);
+console.log(deepCopiedObject);
+
+```
+
+1. 基本类型：如果对象是 null 或者不是对象，直接返回该值。  
+2. 循环引用：使用 WeakMap 跟踪已经克隆的对象，避免循环引用导致的无限递归。
+3. Date 对象：创建一个新的 Date 对象。
+4. 正则表达式对象：创建一个新的 RegExp 对象。
+5. 包装对象：创建新的 Boolean、Number 和 String 对象。
+6. 数组：创建一个新的数组，并递归克隆每个元素。
+7. 普通对象：创建一个新的对象，并递归克隆每个属性。
 
 ### 一个 once 函数，传入函数参数只执行一次
 
+你可以创建一个 once 函数，它接受一个函数作为参数，并返回一个新的函数，这个新函数只会执行一次。可以使用闭包来实现这一功能，确保函数只能被调用一次。
+
+```javascript
+function once(fn) {
+  let called = false;
+  let result;
+
+  return function(...args) {
+    if (!called) {
+      called = true;
+      result = fn.apply(this, args);
+    }
+    return result;
+  };
+}
+
+// 测试
+const logOnce = once((msg) => {
+  console.log(msg);
+  return msg;
+});
+
+logOnce("Hello, World!"); // 输出 "Hello, World!"
+logOnce("This will not be logged"); // 没有输出
+
+```
+
 ### 实现将原生的 ajax 封装成 promise
+
+要将原生的 XMLHttpRequest (即 ajax) 封装成一个返回 Promise 的函数，可以这样实现：
+
+```javascript
+
+function ajaxPromise(options) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open(options.method || 'GET', options.url);
+
+    // 设置请求头
+    if (options.headers) {
+      for (let key in options.headers) {
+        xhr.setRequestHeader(key, options.headers[key]);
+      }
+    }
+
+    // 处理响应
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(xhr.responseText);
+        } else {
+          reject(new Error(`Request failed with status code ${xhr.status}`));
+        }
+      }
+    };
+
+    // 处理请求错误
+    xhr.onerror = () => reject(new Error('Network error'));
+
+    // 发送请求
+    xhr.send(options.body || null);
+  });
+}
+
+// 使用示例
+ajaxPromise({
+  method: 'GET',
+  url: 'https://jsonplaceholder.typicode.com/posts/1'
+})
+  .then(response => {
+    console.log('Success:', response);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+
+```
+
+ajaxPromise 函数：
+
+接受一个 options 对象作为参数，包含 method, url, headers, 和 body 等属性。
+返回一个新的 Promise 对象。
+创建 XMLHttpRequest 对象：
+
+创建一个新的 XMLHttpRequest 对象 xhr。
+设置请求类型和 URL：
+
+使用 xhr.open 设置请求类型（默认是 GET）和请求的 URL。
+设置请求头：
+
+如果 options.headers 存在，遍历 headers 对象并使用 xhr.setRequestHeader 设置每个请求头。
+处理响应：
+
+设置 xhr.onreadystatechange 回调函数，当 xhr.readyState 为 XMLHttpRequest.DONE 时检查响应状态码。
+如果状态码在 200 到 299 之间，表示请求成功，调用 resolve 并传入响应数据。
+如果状态码不在这个范围内，表示请求失败，调用 reject 并传入错误信息。
+处理请求错误：
+
+设置 xhr.onerror 回调函数，在网络错误时调用 reject 并传入错误信息。
+发送请求：
+
+使用 xhr.send 发送请求，传入 options.body（如果存在）作为请求体。
+这样，你就可以通过 ajaxPromise 函数使用 Promise 语法进行 AJAX 请求，并处理异步操作的成功或失败。
 
 ### jS 监听对象属性的改变
 
+在 JavaScript 中，可以使用 Object.defineProperty、Proxy
+
+1. Object.defineProperty 可以定义对象属性的 getter 和 setter，从而实现对属性变化的监听。
+
+```javascript
+function observe(obj, key, callback) {
+  let value = obj[key];
+
+  Object.defineProperty(obj, key, {
+    get() {
+      return value;
+    },
+    set(newValue) {
+      value = newValue;
+      callback(newValue);
+    },
+    configurable: true,
+    enumerable: true,
+  });
+}
+
+// 示例
+let person = { name: "John" };
+
+observe(person, "name", (newValue) => {
+  console.log(`Name changed to: ${newValue}`);
+});
+
+person.name = "Doe"; // 输出: Name changed to: Doe
+
+```
+
+2. Proxy 是 ES6 引入的用于定义基本操作的自定义行为（如属性查找、赋值、枚举、函数调用等）的功能，适用于监听对象属性的变化。
+
+```javascript
+function createObservableObject(obj, callback) {
+  return new Proxy(obj, {
+    set(target, key, value) {
+      target[key] = value;
+      callback(key, value);
+      return true;
+    },
+    get(target, key) {
+      return target[key];
+    },
+  });
+}
+
+// 示例
+let person = { name: "John", age: 30 };
+
+let observablePerson = createObservableObject(person, (key, value) => {
+  console.log(`Property ${key} changed to ${value}`);
+});
+
+observablePerson.name = "Doe"; // 输出: Property name changed to Doe
+observablePerson.age = 31;     // 输出: Property age changed to 31
+
+```
+
 ### 如何实现一个私有变量，用 get 可以访问，不能直接访问
+
+在 JavaScript 中，可以使用闭包（closure）和 Object.defineProperty 或者 Proxy 来实现私有变量，使得它们只能通过 get 方法访问，而不能直接访问
+
+```javascript
+function createObject() {
+  let _privateVariable = "This is a private variable";
+
+  let obj = {};
+
+  Object.defineProperty(obj, 'getPrivateVariable', {
+    get() {
+      return _privateVariable;
+    },
+    enumerable: false,
+    configurable: false
+  });
+
+  return obj;
+}
+
+let myObject = createObject();
+console.log(myObject.getPrivateVariable); // 输出: This is a private variable
+console.log(myObject._privateVariable);   // 输出: undefined
+
+```
+
+2. Proxy 可以更灵活地控制对象的行为，包括拦截属性访问。
+
+```javascript
+function createObject() {
+  let _privateVariable = "This is a private variable";
+
+  return new Proxy({}, {
+    get(target, prop) {
+      if (prop === 'getPrivateVariable') {
+        return _privateVariable;
+      } else {
+        return undefined;
+      }
+    }
+  });
+}
+
+let myObject = createObject();
+console.log(myObject.getPrivateVariable); // 输出: This is a private variable
+console.log(myObject._privateVariable);   // 输出: undefined
+
+```
+
+3. 使用 ES6 类语法实现私有变量,结合访问器（getter）和私有变量
+
+```javascript
+class Person {
+  #name; // 私有变量（使用 # 符号）
+
+  constructor(name) {
+    this.#name = name;
+  }
+
+  getName() {
+    return this.#name;
+  }
+
+  get name() {
+    return this.#name;
+  }
+}
+
+// 示例
+const person = new Person("John");
+
+console.log(person.getName()); // 输出: John
+console.log(person.#name); // 语法错误，无法直接访问私有变量
+
+```
 
 ### 怎么控制一次加载一张图片，加载完后再加载下一张
 
+可以使用 JavaScript 控制图片的按顺序加载，即在一张图片加载完毕后再加载下一张图片。实现这个功能的关键是利用 Image 对象的 onload 事件来检测图片加载完成，然后开始加载下一张图片。
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sequential Image Loading</title>
+</head>
+<body>
+    <div id="image-container"></div>
+
+    <script>
+        // 图片 URL 列表
+        const imageUrls = [
+            'https://example.com/image1.jpg',
+            'https://example.com/image2.jpg',
+            'https://example.com/image3.jpg',
+            // 更多图片 URL
+        ];
+
+        // 当前加载的图片索引
+        let currentImageIndex = 0;
+
+        // 获取图片容器
+        const imageContainer = document.getElementById('image-container');
+
+        // 加载下一张图片
+        function loadNextImage() {
+            if (currentImageIndex < imageUrls.length) {
+                const img = new Image();
+                img.src = imageUrls[currentImageIndex];
+                img.onload = function() {
+                    imageContainer.appendChild(img);
+                    currentImageIndex++;
+                    loadNextImage();
+                };
+                img.onerror = function() {
+                    console.error('Image failed to load:', img.src);
+                    currentImageIndex++;
+                    loadNextImage();
+                };
+            }
+        }
+
+        // 开始加载图片
+        loadNextImage();
+    </script>
+</body>
+</html>
+<!-- 
+代码解释
+图片 URL 列表：
+定义一个包含所有图片 URL 的数组 imageUrls。
+
+当前加载的图片索引：
+使用 currentImageIndex 来跟踪当前加载的图片索引。
+
+图片容器：
+获取用于显示图片的容器元素 imageContainer。
+
+加载下一张图片的函数 loadNextImage：
+
+检查是否有更多图片需要加载 (currentImageIndex < imageUrls.length)。
+创建一个新的 Image 对象，并将其 src 属性设置为当前图片的 URL。
+绑定 onload 事件，当图片加载完成时，将图片添加到容器中，增加索引，然后递归调用 loadNextImage 加载下一张图片。
+绑定 onerror 事件，以处理加载失败的情况，增加索引并继续加载下一张图片。
+开始加载图片：
+调用 loadNextImage 函数以开始按顺序加载图片。
+
+注意事项
+错误处理：代码中处理了图片加载错误的情况，确保即使某张图片加载失败，也能继续加载下一张图片。
+异步加载：Image 对象的 onload 事件是异步的，可以确保一张图片加载完成后才开始加载下一张图片。 -->
+
+```
+
 ### 如何实现 sleep 的效果(es5 或者 es6)
+
+在 JavaScript 中，通常没有像其他编程语言sleep 函数。但可以通过使用 setTimeout 和 Promise 来实现类似的功能。
+
+```javascript
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function demo() {
+    console.log('Waiting for 2 seconds...');
+    await sleep(2000); // 等待 2 秒
+    console.log('2 seconds passed!');
+}
+
+demo();
+
+```
+
+在 ES5 中，没有 async/await，但可以使用回调函数来实现类似的效果：
+
+```javascript
+function sleep(ms) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve, ms);
+    });
+}
+
+sleep(2000).then(function() {
+    console.log('2 seconds passed!');
+});
+
+```
 
 ### Function._proto_(getPrototypeOf)是什么?
 
+在 JavaScript 中，Function.prototype 和 Object.getPrototypeOf 是两个不同的概念，但它们都与对象的原型链和继承有关。
+**Function.prototype** 是所有函数对象的原型。所有的函数（包括构造函数）都继承自 Function.prototype。这是因为在 JavaScript 中，函数也是对象，每个函数都是 Function 构造函数的实例。
+
+```javascript
+function exampleFunction() {}
+
+// 访问函数的原型
+console.log(exampleFunction.prototype); // 输出：exampleFunction {}
+
+console.log(Function.prototype); // 输出：[Function: Empty] 这是函数对象的原型
+
+```
+
+**Object.getPrototypeOf** 是一个方法，用于获取指定对象的原型（即内部 [[Prototype]] 属性的值）。这个方法可以用于获取任何对象的原型，包括函数对象。
+
+```javascript
+function exampleFunction() {}
+
+const prototypeOfFunction = Object.getPrototypeOf(exampleFunction);
+console.log(prototypeOfFunction); // 输出：[Function: Empty]
+
+const exampleObject = {};
+const prototypeOfObject = Object.getPrototypeOf(exampleObject);
+console.log(prototypeOfObject); // 输出：{}
+
+```
+
+```javascript
+function exampleFunction() {}
+
+console.log(Function.prototype); // 输出：[Function: Empty]
+console.log(Object.getPrototypeOf(exampleFunction)); // 输出：[Function: Empty]
+
+// 验证 exampleFunction 的原型是否是 Function.prototype
+console.log(Object.getPrototypeOf(exampleFunction) === Function.prototype); // 输出：true
+
+```
+
+Function.prototype 是所有函数对象的原型，所有函数对象都继承自 Function.prototype。
+Object.getPrototypeOf 是用于获取对象的原型的方法，可以用于获取任何对象（包括函数对象）的原型。
+通过 Object.getPrototypeOf，可以验证一个对象的原型是否是预期的原型，例如验证一个函数对象的原型是否是 Function.prototype。
+
 ### 箭头函数中 this 指向
+
+在 JavaScript 中，箭头函数 (=>) 和传统的函数表达式或函数声明有一个显著的区别：箭头函数不绑定自己的 this 值。相反，箭头函数会捕获其定义时所在的上下文的 this 值，这个特性使得箭头函数在处理回调函数时特别有用，避免了手动绑定 this。
+箭头函数中 this 的指向
+箭头函数没有自己的 this，它会捕获函数定义时的 this，并且在整个函数体内都不会改变。
+
+```javascript
+function Person() {
+  this.age = 0;
+
+  setInterval(() => {
+    this.age++;
+    console.log(this.age); // `this` 指向 `Person` 实例
+  }, 1000);
+}
+
+const p = new Person();
+```
+
+```javascrpit
+
+```
 
 ### 数组常用方法有哪些
 
+map filter reduce find findIndex forEach
+
 ### 数组去重有哪些方法?
 
+Set 和 filter 和 reduce
+
 ### 如何去除字符串首尾空格
+
+第一个trim(),
+第二个replace(/^\s+|\s+$/g, '');
 
 ### 说说你所知道的 js 语言特性?
 
 ### 如何判断一个数组?
 
+1. Array.isArray()
+2. instanceof 运算符
+3. Object.prototype.toString.call()
+
 ### JS 的全排列
+
+```javascript
+function permute(nums) {
+    let result = [];
+
+    // 辅助函数，用于生成排列
+    function backtrack(current, remaining) {
+        if (remaining.length === 0) {
+            result.push(current.slice()); // 复制当前排列并添加到结果中
+        } else {
+            for (let i = 0; i < remaining.length; i++) {
+                current.push(remaining[i]); // 选择元素
+                let nextRemaining = remaining.slice(0, i).concat(remaining.slice(i + 1)); // 剩余元素
+                backtrack(current, nextRemaining); // 递归生成剩余元素的排列
+                current.pop(); // 撤销选择
+            }
+        }
+    }
+
+    backtrack([], nums); // 开始递归
+
+    return result;
+}
+
+// 测试示例
+let nums = [1, 2, 3];
+let permutations = permute(nums);
+console.log(permutations);
+
+```
 
 ### 谈谈你所理解的跨域，为什么会有这个问题?如何解决?
 
+跨域（Cross-Origin）问题指的是当一个网页试图请求不同域名的资源时，浏览器由于安全原因而阻止这些请求。这种安全机制称为同源策略（Same-Origin Policy）
+
+#### 同源策略
+
+同源策略是一种浏览器的安全机制，用于防止一个网站的恶意脚本对其他网站的数据进行访问。它要求以下三者必须一致：
+
+协议（如 HTTP 与 HTTPS）
+域名（如 example.com 与 <www.example.com）>
+端口（如 80 与 443）
+
+#### 跨域的根本原因
+
+是为了防止 CSRF（跨站请求伪造）和 XSS（跨站脚本攻击）等安全风险。通过限制跨域请求，浏览器能够保护用户数据不被恶意网站窃取或篡改
+
+#### 解决方案
+
+1. JSONP是一种绕过同源策略的方法，只能用于 GET 请求。通过动态添加`<script>` 标签并设置回调函数，服务器返回执行该回调函数的 JavaScript 代码。
+
+```javascript
+function handleResponse(data) {
+    console.log(data);
+}
+
+let script = document.createElement('script');
+script.src = 'https://example.com/data?callback=handleResponse';
+document.head.appendChild(script);
+
+```
+
+2. CORS（跨域资源共享，Cross-Origin Resource Sharing）
+
+* 服务器端设置：服务器通过设置 Access-Control-Allow-Origin 头来允许特定的跨域请求。
+
+```javascript
+function handleResponse(data) {
+    console.log(data);
+}
+
+let script = document.createElement('script');
+script.src = 'https://example.com/data?callback=handleResponse';
+document.head.appendChild(script);
+
+```
+
+* 带凭证的请求：如果需要携带凭证（如 cookies），需要设置额外的头
+
+```http
+Access-Control-Allow-Credentials: true
+
+```
+
+* nginx 配置：通过设置 proxy_set_header 和 add_header 来实现跨域。
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+
+    location / {
+        add_header 'Access-Control-Allow-Origin' '*';
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
+
+        # 处理预检请求
+        if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' '*';
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
+            return 204;
+        }
+
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+
+```
+
+* nodejs 代理：通过 express 的中间件实现代理。
+
+```javascript
+const express = require('express');
+const request = require('request');
+const app = express();
+
+app.use('/proxy', (req, res) => {
+    let url = req.query.url;
+    req.pipe(request(url)).pipe(res);
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
+
+```
+
 ### null == undefined 输出什么? null === undefined 呢?
 
+使用宽松（非严格）相等运算符 == 时，JavaScript 会进行类型转换，然后再比较。这种情况下，null 和 undefined 被认为是相等的 true  
+使用严格相等运算符 === 时，JavaScript 不会进行类型转换，而是直接比较两个值的类型和内容。如果类型或内容不同，则返回 false：
+null 的类型是 object（这是一个被认为是 JavaScript 语言设计的一个错误）。null 表示“空值”或“无值对象”。通常用于显式地赋值给变量，表示该变量没有任何对象值。undefined 的类型是 undefined。 undefined 表示“未定义”。当一个变量被声明但未初始化时，默认值是 undefined。
+
 ### 什么是按需加载
+
+用于在应用程序运行时只加载所需的资源，而不是在初始加载时加载所有资源。这样可以减少初始加载时间，提高应用的性能和用户体验。，按需加载主要应用于 JavaScript 模块、图片和其他资源的加载
+
+```javascript
+// 使用 ES6 动态 import
+// 按需加载某个模块
+function loadModule() {
+    import('./module.js')
+        .then(module => {
+            module.default();
+        })
+        .catch(err => {
+            console.error('Error loading module:', err);
+        });
+}
+
+// 调用时才加载模块
+loadModule();
+
+```
+
+图片的按需加载
+
+```javascript
+<img data-src="image.jpg" class="lazyload" alt="Lazy loaded image">
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let lazyImages = [].slice.call(document.querySelectorAll("img.lazyload"));
+
+    if ("IntersectionObserver" in window) {
+        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    let lazyImage = entry.target;
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImage.classList.remove("lazyload");
+                    lazyImageObserver.unobserve(lazyImage);
+                }
+            });
+        });
+
+        lazyImages.forEach(function(lazyImage) {
+            lazyImageObserver.observe(lazyImage);
+        });
+    } else {
+        // Fallback for older browsers
+        let lazyLoad = function() {
+            lazyImages.forEach(function(lazyImage) {
+                if (lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0 && getComputedStyle(lazyImage).display !== "none") {
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImage.classList.remove("lazyload");
+                }
+            });
+
+            if (lazyImages.length === 0) {
+                document.removeEventListener("scroll", lazyLoad);
+                window.removeEventListener("resize", lazyLoad);
+                window.removeEventListener("orientationchange", lazyLoad);
+            }
+        };
+
+        document.addEventListener("scroll", lazyLoad);
+        window.addEventListener("resize", lazyLoad);
+        window.addEventListener("orientationchange", lazyLoad);
+    }
+});
+</script>
+
+```
+
+#### 按需加载的优势
+
+减少初始加载时间：只加载当前视图所需的资源，加快页面的初始加载速度。
+降低带宽消耗：避免加载未使用的资源，减少带宽消耗。
+提高用户体验：更快的页面加载速度和响应速度，提升用户体验。
+
+#### 按需加载的注意事项
+
+兼容性：确保使用的按需加载技术兼容所有目标浏览器。
+错误处理：处理资源加载失败的情况，提供相应的用户反馈。
+SEO 影响：对于需要 SEO 的页面，确保按需加载的内容能够被搜索引擎抓取。
 
 ### 简单介绍-下 symbol
 
 ### 介绍-下 promise，及其底层如何实现
 
+ 大师课
+
 ### JS 原型链，原型链的顶端是什么?0bject 的原型是什么?Object的原型的原型是什么?
+
+大师课
 
 ### promise+Generator+Async的使用
 
 ### JS 中 string 的 startwith 和 indexof 两种方法的区别
 
-### 15 字符串转数字的方法
+### 字符串转数字的方法
 
 ### 平时是怎么调试 JS 的
 
+console.log()
+debug
+
 ### 怎么获得对象上的属性
+
+Object.keys,返回一个包含对象所有可枚举属性名的数组。这对遍历对象的属性名非常有用。
+Object.values,
+Object.entries() 返回一个包含对象所有属性的键值对数组，每个键值对是一个数组，包含属性名和属性值。
+Object.getOwnPropertyNames() 返回一个数组，包含对象自身的所有属性名（包括非可枚举属性），不包括继承的属性。
 
 ### async 和 await 具体该怎么用?
 
@@ -1452,6 +2332,8 @@ DOM 引用：如果保留了对 DOM 元素的引用（例如通过 JavaScript �
 ### JS 对象类型，基本对象类型以及引用对象类型的区别轮播的实现原理?假如一个页面上有两个轮播，你会怎么实现?
 
 ### 解释-下 JS 的事件循环
+
+大师课
 
 ### Localstorage、sessionStorage、cookie 的区别
 
@@ -1603,13 +2485,94 @@ DOM 引用：如果保留了对 DOM 元素的引用（例如通过 JavaScript �
 
 ### cache-control 的值有哪些
 
+Cache-Control 是一个 HTTP 头部，用于指定缓存机制的指令，控制客户端和中间缓存（如 CDN 和代理服务器）如何缓存和使用响应内容。以下是 Cache-Control 头部常见值及其含义：
+
+1. no-cache
+含义：要求客户端在使用缓存内容之前必须重新验证缓存的内容。
+使用场景：当服务器内容可能已更改但不一定每次请求都需要更新时。
+2. no-store
+含义：指示缓存不应存储任何关于客户端请求和服务器响应的信息。
+使用场景：用于敏感数据，如银行网站登录页，确保数据不会被存储在缓存中。
+3. public
+含义：表示响应可以被任何缓存（包括公共缓存）缓存，即使它是认证内容。
+使用场景：当响应内容不包含敏感数据，并且可以被任何人访问时。
+4. private
+含义：表示响应只能被单个用户的缓存缓存，而不能被共享缓存（如 CDN）缓存。
+使用场景：用于包含用户特定数据的响应，如个人账户页面。
+5. max-age=`<seconds>`
+含义：指定响应可以在缓存中存储的最大时间（以秒为单位）。超过这个时间，缓存内容被视为过期。
+使用场景：用于指定缓存内容的有效时间。例如，max-age=3600 允许缓存存储响应内容 1 小时。
+6. s-maxage=`<seconds>`
+含义：与 max-age 类似，但仅对共享缓存（如 CDN）有效。覆盖 max-age 或 Expires 头部。
+使用场景：当需要不同的缓存策略用于不同的缓存层时。例如，指定 CDN 上缓存的时间。
+7. must-revalidate
+含义：当缓存内容过期时，客户端在使用缓存内容之前必须先向服务器验证其有效性。
+使用场景：用于确保客户端在使用过期缓存之前验证内容的有效性。
+8. proxy-revalidate
+含义：类似于 must-revalidate，但仅对共享缓存有效。
+使用场景：确保共享缓存（如代理服务器）在内容过期后验证其有效性。
+9. no-transform
+含义：指示缓存不应对响应内容进行转码（如压缩或更改格式）。
+使用场景：当内容不应被修改或转码时，例如图片和视频。
+10. immutable
+含义：指示内容在 max-age 过期之前不应更改。浏览器可以优化缓存策略并减少请求。
+使用场景：用于静态资源，如版本化的图像或脚本文件，确保在指定时间内不改变。
+
 ### 谈谈 304 状态码
 
 ### 什么是 CDN，以及如何优化?
 
+CDN（内容分发网络，Content Delivery Network）是一个分布式的网络架构，通过在全球范围内部署多个边缘服务器，来缓存和分发静态和动态内容，从而提高网站的性能、可用性和安全性。
+
+1. CDN 的工作原理
+**内容缓存：**
+缓存静态内容：CDN 边缘服务器会缓存静态内容，如图像、CSS、JavaScript 文件等。当用户请求这些内容时，CDN 会从最近的边缘服务器提供数据，而不是从原始服务器获取。
+动态内容加速：虽然动态内容（如用户生成的数据）不会被缓存，CDN 也可以通过优化传输路径和减少延迟来加速动态内容的传输。
+**用户请求路由：**
+智能路由：CDN 会根据用户的地理位置、网络状态和服务器负载等因素，选择最接近的边缘服务器来响应请求。这可以减少延迟和提高响应速度。
+**负载均衡：**
+分担流量：CDN 边缘服务器分担来自用户的流量，从而减少原始服务器的负载，避免单点故障。
+**安全性：**
+DDoS 防护：CDN 提供分布式的 DDoS（分布式拒绝服务）攻击防护，减少对源服务器的攻击影响。
+SSL/TLS 加密：CDN 支持 SSL/TLS 加密，确保用户与边缘服务器之间的通信安全。
+
+2. 优化 CDN 的方法
+**内容缓存策略：**
+设置合理的缓存时间：通过设置适当的缓存过期时间（TTL，Time-To-Live）来平衡内容的新鲜度和缓存命中率。常见的做法是对静态内容（如图像、视频）设置较长的 TTL，对动态内容（如 API 响应）设置较短的 TTL。
+使用缓存控制头：配置适当的 HTTP 缓存控制头（如 Cache-Control, Expires）来管理缓存行为。
+**内容优化：**
+压缩内容：使用 Gzip 或 Brotli 等压缩算法来减少传输的数据量。优化图像：使用适当的图像格式和尺寸，压缩图像以减少文件大小。
+**合理的分发策略：**
+选择合适的 CDN 提供商：选择具有全球覆盖和良好性能的 CDN 提供商。配置地理位置：确保 CDN 边缘服务器覆盖用户主要集中区域，优化请求路由。
+**动态内容加速：**
+使用 CDN 的动态加速功能：一些 CDN 提供动态内容加速功能，通过优化传输路径和减少延迟来加速动态内容的传输。
+**监控和分析：**
+监控性能：使用 CDN 提供的监控工具来跟踪缓存命中率、响应时间和流量等指标。分析数据：根据监控数据分析和调整缓存策略，优化 CDN 配置。
+**安全性设置：**
+启用 HTTPS：通过 CDN 配置 HTTPS，以加密数据传输和保护用户隐私。配置 Web 应用防火墙（WAF）：使用 CDN 提供的 WAF 功能来保护应用程序免受常见的网络攻击。
+
 ### DNS是什么
 
+DNS（域名系统，Domain Name System）是一个分布式的、层次化的系统，用于将域名转换为 IP 地址。它是互联网的核心组成部分，使得用户可以使用易于记忆的域名（如 <www.example.com）访问网络资源，而无需记住数字格式的> IP 地址（如 192.0.2.1）。
+
 ### 什么是四层、七层网络模型?
+
+四层网络模型（简称 TCP/IP 模型）四层网络模型，也被称为 TCP/IP 模型，是用于描述和设计互联网协议的模型。它包含四个主要层级：
+
+**应用层（Application Layer）**：这一层处理应用程序间的通信协议，如 HTTP、FTP、SMTP 等。负责提供用户服务和应用程序的接口。
+**传输层（Transport Layer）：**这一层负责数据的传输和管理端到端的通信。主要协议包括 TCP（传输控制协议）和 UDP（用户数据报协议）。TCP 提供可靠的、面向连接的服务，而 UDP 提供无连接、不可靠的服务。
+**网络层（Network Layer）：**这一层负责数据包在网络中的路由和转发。主要协议是 IP（互联网协议），它负责地址分配和路由选择。子协议如 ICMP（互联网控制消息协议）用于错误报告和诊断。
+**链路层（Link Layer）：**这一层处理物理网络上的数据传输和网络接口。负责帧的封装和解封装，包括以太网、Wi-Fi 等协议。
+
+七层网络模型，即开放系统互联（OSI）模型，是由国际标准化组织（ISO）提出的网络分层模型，用于标准化网络通信协议的设计。它包含以下七个层级：
+
+**物理层（Physical Layer）：**负责传输原始的比特流，包括硬件设备如电缆、交换机和网卡。定义了电气信号、光信号和机械特性。
+**数据链路层（Data Link Layer）：**负责节点之间的可靠数据传输。包括以太网、PPP（点对点协议）、HDLC（高级数据链路控制）等协议。处理错误检测和帧的封装。
+**网络层（Network Layer）：**负责数据包的路由和转发。主要协议包括 IP（互联网协议）、ICMP（互联网控制消息协议）。
+**传输层（Transport Layer）：**负责端到端的数据传输和流量控制。主要协议包括 TCP（传输控制协议）和 UDP（用户数据报协议）。
+**会话层（Session Layer）：**负责建立、管理和终止会话（连接）。提供对话控制和同步。
+**表示层（Presentation Layer）：**负责数据的编码、解码和转换。处理数据格式、加密和解密。
+**应用层（Application Layer）：**处理应用程序间的通信协议。包括 HTTP、FTP、SMTP、DNS 等协议。
 
 ## 代码编程
 
@@ -1617,9 +2580,9 @@ DOM 引用：如果保留了对 DOM 元素的引用（例如通过 JavaScript �
 
 ### 如何判断对象为空
 
-### 事件循环下面题目输出什么，为什么？
-
 ### 函数柯里化 实现一个add 函数满足能力
+
+函数柯里化（Currying）是将一个接受多个参数的函数转换成一系列接受单一参数的函数的技术。柯里化函数在每次调用时接受一个参数，并返回一个新的函数，这个新的函数可以接受下一个参数，直到所有参数都被提供。
 
 ### 假设前端需要发 n个请求(n很大)，写一个方法同时只并发10个请求，直到n个请求完成
 
