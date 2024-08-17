@@ -2046,7 +2046,7 @@ function Person() {
 const p = new Person();
 ```
 
-```javascrpit
+```javascript
 
 ```
 
@@ -3354,33 +3354,338 @@ const a = ref()
 
 ### 请介绍一下 XMLHTTPrequest 对象及常用方法和属性
 
+XMLHttpRequest 对象是用于在 Web 页面上进行异步 HTTP 请求的 JavaScript 对象。它允许在不重新加载整个页面的情况下从服务器请求数据，并对响应进行处理。XMLHttpRequest 对象是 AJAX（Asynchronous JavaScript and XML）的核心组成部分。
+
+1. open初始化请求。
+2. send 发送请求
+3. setRequestHeader设置请求头。
+4. abort取消当前请求
+5. getAllResponseHeaders获取所有响应头的字符串
+
+```javascript
+// 创建 XMLHttpRequest 对象
+const xhr = new XMLHttpRequest();
+
+// 设置请求
+xhr.open('GET', 'https://api.example.com/data', true);
+
+// 监听请求状态变化
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === 4) { // 请求完成
+    if (xhr.status === 200) { // 请求成功
+      console.log('Response:', xhr.responseText);
+    } else {
+      console.error('Request failed with status:', xhr.status);
+    }
+  }
+};
+
+// 发送请求
+xhr.send();
+
+```
+
 ### Ajax 的实现流程是怎样的?
+
+创建一个 XMLHttpRequest 对象。
+配置请求的类型、URL 以及是否异步。
+发送请求到服务器。
+监听服务器的响应并处理它。
+
+```javascript
+// 1. 
+var xhr = new XMLHttpRequest();
+// 2
+xhr.open('GET', 'https://example.com/api/data', true);
+// 3
+xhr.send(null); // GET 请求
+// xhr.send('param1=value1&param2=value2'); // POST 请求
+// 4
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log(xhr.responseText);
+    }
+};
+// 5
+var data = xhr.responseText; // 获取文本数据
+```
 
 ### Aiax 接收到的数据类型有哪些，数据如何处理?封装好的 Ajax 里的常见参数及其代表的含义
 
+1. 纯文本(Text)： xhr.responseText
+2. JSON：var jsonData = JSON.parse(xhr.responseText);
+3. XML： var xmlData = xhr.responseXML;
+4. HTML： var htmlData = xhr.responseText; document.getElementById('content').innerHTML = htmlData;
+5. 二进制数据 (Blob, ArrayBuffer)： xhr.responseType = 'blob'（'arraybuffer'）;  var binaryData = xhr.response;
+
+##### 数据处理
+
+文本数据处理：xhr.responseText
+JSON 数据处理：JSON.parse(xhr.responseText)
+XML 数据处理：responseXML.getElementsByTagName('item')
+二进制数据处理：new Blob([xhr.response], { type: 'image/png' })
+
 ### Ajax 注意事项及适用和不适用场景
+
+1. 跨域问题
+2. 浏览器兼容
+3. 异步同步的问题
+4. 处理响应时间与错误
+5. 安全性
+6. 数据格式与解析
+7. 回调地狱
+
+SEO 友好的页面
 
 ### 常见的 HTTP 状态码以及代表的意义
 
+看HTTP那一章
+
 ### 301 302 303 状态码的区别?
+
+看HTTP那一章
 
 ### 什么是同源策略
 
+同源”是指两个 URL 具有相同的 协议、域名 和 端口
+
 ### 为什么会有跨域的问题出现，如何解决跨域问题
 
+1. 防止 xss 攻击
+2. CORS 是一种标准的跨域解决方案。服务器可以通过设置适当的 HTTP 头部允许来自特定域名的跨域请求
+3. 代理服务器 nginx
+
 ### Get 和 Post 的区别以及使用场景
+
+#### 数据传输方式
+
+1. GET:URL 参数、可见性、长度限制（2048）
+2. POST 请求体、无长度限制具体的限制取决于服务器配置。数据类型多样多种数据类型，包括 JSON、XML、表单数据、文件等。
+
+#### 安全性
+
+1. GET数据暴露在 URL 中 浏览器历史、服务器日志、网络监控中，敏感数据不适合通过 GET 传输。
+2. POST相对安全、不会直接显示在 URL 中，虽然不会对数据进行加密，但比 GET 更难被意外曝光。
+
+#### 缓存机制
+
+1. GET 请求通常可以被浏览器缓存，特别是用于获取静态资源
+2. POST 请求的响应通常不会被浏览器缓存，适合用于操作需要实时处理结果的场景。
+
+#### 参数传递
+
+1. GET主要用于 URL 中的查询参数，如搜索关键字、分页信息等。书签和分享
+2. POST 请求的响应通常不会被浏览器缓存，适合用于操作需要实时处理结果的场景。
+
+#### 场景
+
+##### GET
+
+数据查询: 用于从服务器获取数据而不改变服务器状态的操作，如搜索查询、过滤结果、获取静态资源等。
+
+示例：GET /search?query=javascript
+
+导航和链接: 适合用于网页之间的链接、导航，用户可以直接点击 URL 访问资源，且 URL 可以方便地保存和分享。
+
+示例：GET /products?page=2&category=books
+
+获取静态资源: 浏览器通常会缓存 GET 请求的静态资源，如图片、CSS、JavaScript 文件，减轻服务器压力。
+
+示例：GET /images/logo.png
+
+#### POST
+
+提交表单: 用于提交用户输入的数据，例如登录、注册、评论等操作。
+
+示例：POST /login
+
+上传文件: POST 请求可以传输文件或二进制数据，用于文件上传或传输大数据量。
+
+示例：POST /upload
+
+创建或更新资源: 用于在服务器上创建新资源或更新现有资源，通常带有副作用（如数据库的写操作）。
+
+示例：POST /api/users （创建用户）
+
+传递敏感数据: 由于数据在请求体中传输，POST 适合传递需要一定隐私保护的数据（尽管更好的做法是通过 HTTPS 加密传输）。
 
 ### 解释 jsonp 的原理
 
 ### HTTP 与 HTTPS 的区别
 
+网络上进行数据传输的协议，从几个方面来说：安全性、工作原理、证书、性能、URL 和端口、SEO
+
+#### 安全性
+
+##### http
+
+无加密：HTTP 是一个明文传输协议，数据在网络上传输时不进行加密。因此，数据可以被中间人拦截、查看和篡改。
+风险：由于数据是明文的，用户的隐私信息、敏感数据（如密码、信用卡信息）在传输过程中容易被窃取或篡改。
+
+##### https
+
+加密传输：HTTPS 在 HTTP 的基础上增加了 SSL/TLS 加密层，通过加密算法保护数据在传输过程中的机密性和完整性。
+数据保护：HTTPS 确保数据在传输过程中被加密，防止中间人攻击（MITM）和数据泄露，提高数据的安全性。
+
+#### 工作原理
+
+##### http
+
+数据传输：数据以明文形式通过 TCP/IP 协议进行传输。
+连接：HTTP 连接通常不进行加密和认证，通信内容易被第三方读取。
+
+##### https
+
+加密层：HTTPS 使用 SSL/TLS 协议对数据进行加密，确保数据在网络上以加密形式传输。
+认证：HTTPS 还涉及到服务器的身份验证，通过数字证书（由受信任的证书颁发机构颁发）确认服务器的身份，防止伪造网站的攻击。
+
+#### 证书
+
+##### http
+
+无证书：HTTP 协议不涉及证书的使用，不进行身份验证。
+
+##### https
+
+数字证书：HTTPS 需要 SSL/TLS 证书。证书用于加密通信以及验证服务器的身份，确保用户连接到的是合法的服务器。
+证书颁发：证书由证书颁发机构（CA）颁发，证书的有效性可以通过 CA 的公钥来验证。
+
+#### 性能
+
+##### http
+
+性能：HTTP 协议不涉及加密，因此在处理速度上相对较快，但这并不是说它更高效，因为数据的安全性和完整性未得到保证。
+
+##### https
+
+性能开销：HTTPS 的加密和解密过程会带来一定的性能开销，因此在处理时可能比 HTTP 略慢。不过，现代硬件和优化技术（如 HTTP/2）已经显著减少了这个性能差异。
+
+#### URL 和端口
+
+##### http
+
+URL：以 http:// 开头。
+端口：默认端口为 80。
+
+##### https
+
+URL：以 https:// 开头。
+端口：默认端口为 443。
+
+#### SEO
+
+##### http
+
+HTTP 可能会被认为不够安全，影响网站的 SEO 排名
+
+##### https
+
+搜索引擎优先考虑 HTTPS 网站
+
 ### 简述 web 前端 Cookie 机制，并结合该机制说明会话保持原理
+
+Cookie 机制一种在**客户端**和**服务器**之间**传递信息**的技术，它允许**服务器**在用户的**浏览器**上**存储**和**检索数据**。这些数据通常用于跟踪**用户状态**、**个性化设置**和**会话管理**。
+
+1. 创建Cookie,服务器通过HTTP响应头中的Set-Cookie
+2. 存储Cookie
+3. 发送Cookie
+4. 读取和更新Cookie
+5. 删除Cookie
+
+会话保持是指在**用户**与**Web应用**进行**交互**时，**服务器**能够**识别**出是**同一个用户**，并**维持其状态**的过程。Cookie机制是实现会话保持的一种常用方法。
+
+**用户登录**：当用户登录Web应用时，服务器会验证用户的身份，并创建一个唯一的会话标识符（通常是一个随机生成的字符串）。
+
+**创建会话Cookie**：服务器将这个会话标识符作为值，创建一个Cookie，并通过Set-Cookie响应头发送给客户端。
+
+**存储会话标识符**：客户端浏览器接收到这个Cookie后，将其存储在本地。
+
+**后续请求**：当用户继续与Web应用交互并发送请求时，浏览器会自动将包含会话标识符的Cookie发送给服务器。
+
+**识别用户**：服务器接收到请求后，从请求头中读取Cookie，提取出会话标识符，并通过这个标识符识别出是哪个用户。
+
+**维持状态**：服务器根据会话标识符找到对应的用户会话数据，从而维持用户的状态，例如用户的登录状态、购物车内容等。
 
 ### 你知道的 HTTP 请求方式有几种
 
+GET PUT POST DELETE
+
 ### 谈谈你理解的 RESTFUL 规范
 
+ RESTFUL规范是一种软件架构风格，REST代表表述性状态转移，它强调资源的概念，并通过HTTP协议来实现客户端与服务器之间的通信。
+
+* 资源（Resources）：
+
+RESTful架构中的核心概念是资源。资源可以是任何可以被命名的对象，如用户、文章、图片等。
+每个资源都有一个唯一的标识符，通常是一个URI（统一资源标识符）。
+
+* 统一接口（Uniform Interface）：
+
+RESTful服务应该提供一个统一的接口来访问资源，这个接口由四个主要部分组成：请求方法、URI、请求头和响应体。
+请求方法（如GET、POST、PUT、DELETE等）用于定义对资源的操作。
+URI用于定位资源。
+请求头和响应体用于传递额外的信息和数据。
+
+* 无状态（Stateless）：
+
+RESTful服务应该是无状态的，即服务器不保存客户端的任何状态信息。
+每个请求都应该包含足够的信息来让服务器理解并处理该请求，而不需要依赖于之前的请求或会话状态。
+
+* 可缓存（Cacheable）：
+
+RESTful服务应该支持缓存，以提高性能和可伸缩性。
+服务器可以通过响应头来指示客户端是否可以缓存响应，以及缓存的策略。
+
+* 分层系统（Layered System）：
+
+RESTful服务可以由多个层组成，每层负责不同的功能，如负载均衡、认证、业务逻辑等。
+客户端通常无法直接访问服务器内部的层，这增加了系统的安全性和灵活性。
+
+* 按需代码（Code on Demand，可选）：
+
+RESTful服务可以通过传输可执行代码来扩展客户端的功能，但这不是必须的，也不是REST规范的核心部分。
+
+* 超媒体作为应用状态的引擎（HATEOAS，Hypermedia as the Engine of Application State）：
+
+RESTful服务应该使用超媒体（如HTML、JSON等）来描述资源和状态。
+客户端可以通过解析超媒体来了解可用的资源和操作，从而动态地导航和交互。
+
 ### 解释一下三次握手是什么，具体流程。变为二次握手会发生什么问题?
+
+第一次握手：
+
+客户端发送一个SYN（同步序列编号）报文给服务器，请求建立连接。
+报文中包含客户端的初始序列号（ISN）。
+客户端进入SYN_SENT状态。
+
+第二次握手：
+
+服务器收到SYN报文后，如果同意连接，则发送一个SYN+ACK（同步确认）报文作为响应。
+报文中包含服务器的初始序列号（ISN）和对客户端SYN的确认（ACK），确认号为客户端ISN+1。
+服务器进入SYN_RECEIVED状态。
+
+第三次握手：
+
+客户端收到SYN+ACK报文后，发送一个ACK（确认）报文给服务器，确认号为服务器ISN+1。
+客户端进入ESTABLISHED状态。
+服务器收到ACK报文后，也进入ESTABLISHED状态，此时连接建立成功。
+
+#### 变为二次握手会发生的问题
+
+1. 半开连接（Half-open Connection）：
+
+如果客户端发送了SYN报文，但服务器没有响应（例如由于网络问题），客户端会一直等待服务器的响应，而服务器则不知道这个连接请求的存在。
+这种情况下，连接处于半开状态，浪费了服务器的资源。
+
+2. 无法确认服务器的接收能力：
+
+在两次握手的情况下，客户端无法确认服务器是否成功接收了自己的SYN报文。
+如果服务器没有收到SYN报文，但客户端认为连接已经建立，这会导致数据丢失或不一致。
+
+3. 无法防止重复连接请求：
+
+如果客户端的SYN报文在网络中延迟或重传，服务器可能会收到多个相同的SYN报文。
+在两次握手的情况下，服务器会为每个SYN报文创建一个连接，导致资源浪费和潜在的冲突。
 
 ### TCP 和 UDP 分别是什么?
 
