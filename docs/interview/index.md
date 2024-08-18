@@ -3689,21 +3689,188 @@ RESTful服务应该使用超媒体（如HTML、JSON等）来描述资源和状�
 
 ### TCP 和 UDP 分别是什么?
 
+#### TCP
+
+TCP（传输控制协议）和UDP（用户数据报协议）是两种常用的网络传输协议
+
+工作方式：TCP是一种面向连接的协议，需要在客户端和服务器之间建立一个连接，然后再进行数据传输。它提供了可靠的、有序的、全双工的数据流传输，通过确认、重传、窗口控制等机制来保证数据的可靠传输。
+
+性能：TCP协议通过可靠性机制和拥塞控制来保证数据的可靠传输，因此它的传输速度相对较慢
+
+适用场景：TCP协议适用于需要可靠传输、数据量大、传输距离较远的场景，例如HTTP、FTP等应用层协议
+
+特点：面向连接、可靠、基于字节流、全双工通信。
+
+连接过程：通过三次握手建立连接，通过四次挥手释放连接。
+
+可靠性机制：包括序列号、确认和重传机制，确保数据的准确和可靠传输。
+
+流量控制和拥塞控制：使用滑动窗口机制和慢开始、拥塞避免、快重传和快恢复等策略。
+
+#### UDP
+
+工作方式：UDP是一种无连接的协议，数据传输之前不需要在客户端和服务器之间建立连接。它提供了不可靠的、无序的、非全双工的数据包传输，不保证数据的可靠传输
+
+性能：UDP协议没有可靠性机制和拥塞控制，数据传输的速度相对较快
+
+适用场景：UDP协议适用于实时性要求高、数据量小、传输距离短的场景，例如音视频传输、网络游戏等
+
+特点：无连接、不可靠、基于数据报、尽最大努力交付。
+
+速度：由于没有连接建立和流量控制机制，UDP通常比TCP更快。
+
+适用场景：适用于对实时性要求较高的应用，如视频会议、在线游戏等。
+
 ### WebSocket 的实现和应用
+
+1. WebSocket 是一种网络通信协议，它在单个 TCP 连接上进行全双工通信。WebSocket 协议使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据
+2. 聊天、实时数据更新、新闻推送、天气预报、在线游戏、物联网设备监控。
 
 ### -个图片 ur 访问后直接下载怎样实现?
 
+```javascript
+function downloadImage(imageUrl, fileName) {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = fileName;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// 使用示例
+downloadImage('https://example.com/path/to/image.jpg', 'downloaded_image.jpg');
+```
+
 ### 说-下 http2.0
+
+HTTP/2.0的主要特性
+
+二进制分帧：HTTP/2.0将数据传输划分为小的帧，每个帧都包含帧头和帧载荷，提高了传输效率。
+头部压缩：使用HPACK算法对HTTP头部进行压缩，减少了头部传输的数据量。
+多路复用：支持多个请求和响应在同一个连接上同时进行，提高了网络的并发能力。
+服务器推送：服务器可以在客户端请求之前，主动向客户端推送数据，减少了额外的请求延迟。
+流量控制和资源优先级：有效利用流的多路复用机制，确保只有接收者使用的数据会被传输，同时支持优先级设置，确保重要资源优先传输。
+安全性增强：默认使用TLS 1.2或更高版本的加密协议，提供了更强的安全性保护。
+
+HTTP/2.0与HTTP 1.1的区别
+
+连接复用：HTTP/1.1支持持久连接，而HTTP/2.0在此基础上实现了完全的多路复用。
+请求头持久化：HTTP/1.1通过Keep-Alive减少连接建立和关闭的开销，HTTP/2.0进一步减少了重复发送头部信息的次数。
+流水线处理：HTTP/1.1支持流水线化，但存在队头阻塞问题，HTTP/2.0通过多路复用解决了这一问题。
+传输编码：HTTP/1.1引入分块传输编码提高传输效率，HTTP/2.0的二进制格式本身更高效。
+多路复用：HTTP/1.x中的队头阻塞问题在HTTP/2.0中通过多路复用技术得到解决。
+头部压缩：HTTP/1.1不支持头部压缩，HTTP/2.0使用HPACK算法压缩头部，减少了传输的数据量。
+服务器推送：HTTP/1.1不支持服务器推送，HTTP/2.0引入了服务器推送机制，提高了响应速度。
+安全性：HTTP/1.1不支持强制使用TLS，HTTP/2.0默认使用TLS加密传输，提供了更强的安全性。
+
+HTTP/2.0的应用场景
+
+网页浏览：显著提高网页的加载速度和响应性能。
+移动应用：提高移动应用的网络利用率和响应速度。
+云服务：提高云服务的性能和响应速度。
+实时通信：适用于实时通信应用，提供更快的传输速度和更好的并发性
+
+HTTP/2.0通过一系列的创新特性，显著提高了网络通信的效率和安全性，是现代Web应用的重要支撑。
 
 ### 补充 400 和 401、403 状态码
 
+1. 400 （错误请求） 服务器不理解请求的语法。
+2. 401(未授权) 请求要求身份验证。 对于需要登录的网页，服务器可能返回此响应
+3. 403(禁止) 服务器拒绝请求。
+
 ### fetch发送2次请求的原因
+
+1. fetch 在某些情况下可能会发送两次请求，这通常是由于浏览器的预检请求（preflight request）机制导致的。预检请求是浏览器为了确保跨域请求安全而自动发起的一种请求。
+2. 跨域请求：当 fetch 发起跨域请求时，浏览器会首先发送一个 OPTIONS 请求，这就是预检请求。预检请求会检查目标服务器是否允许跨域请求，如果允许，浏览器才会发送实际的请求。因此，在这种情况下，你会看到两个请求：一个是 OPTIONS 预检请求，另一个是实际的请求。如果服务器响应允许跨域请求，浏览器会发送第二个请求，即实际的 POST 请求。
+
+```javascript
+fetch('https://example.com/data', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ key: 'value' })
+});
+```
+
+3.自定义请求头：如果 fetch 请求中包含了自定义的请求头，浏览器同样会发送预检请求。这是因为自定义请求头可能会影响到服务器的处理逻辑，浏览器需要先确认服务器是否接受这些自定义头。在这种情况下，浏览器会先发送一个 OPTIONS 预检请求，然后发送实际的 POST 请求。
+
+```javascript
+fetch('https://example.com/data', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Custom-Header': 'custom-value'
+    },
+    body: JSON.stringify({ key: 'value' })
+});
+```
 
 ### 对 HTML 语义化标签的理解
 
+1. HTML语义化标签是指那些具有明确含义的标签，它们用于描述网页内容的结构和意义，而不是仅仅用于视觉呈现。这些标签帮助开发者、搜索引擎以及辅助技术（如屏幕阅读器）更好地理解网页的内容。
+2. 语义化标签的作用和优势:提高代码的可读性和可维护性、提升搜索引擎优化（SEO）效果、增强网页的可访问性、适应不同的设备和屏幕尺寸
+3. 常用的标签：`<header>`定义文档的页眉，通常包含网站的标志、导航菜单等;`<nav>`表示页面的主要导航链接部分;`<main>`代表文档或文档某个部分的主内容区域;`<article>`定义文档中的独立内容，如新闻文章、博客条目等;`<section>`代表文档中的一个独立部分，通常带有一个标题;`<aside>`用于定义与页面主要内容相关但不是主要内容的一部分的内容，比如侧边栏或广告;`<footer>`定义文档或节的页脚，通常包含版权信息、联系方式等。
+
 ### Cookie 和 session 的区别
 
+存储位置
+
+Cookie: 存储在客户端浏览器中。  
+Session: 存储在服务器端。
+
+安全性
+
+Cookie: 相对不安全，容易被截获和篡改。  
+Session: 更加安全，因为数据存储在服务器端。
+
+大小限制
+
+Cookie: 每个Cookie的大小通常不超过4KB。
+Session: 没有明确的大小限制，但过多的数据会影响服务器性能。
+
+数量限制
+
+Cookie: 每个域名下的Cookie数量有限制，通常为20个左右。  
+Session: 没有明确的数量限制，但过多的Session会增加服务器负载。
+
+生命周期
+
+Cookie: 可以设置有效期，过期后会被浏览器自动删除。  
+Session: 通常依赖于用户的活动状态，可以通过设置超时时间来控制。
+
+用途
+
+Cookie: 用于保存用户信息、个性化设置等。  
+Session: 用于记录用户的状态，如登录状态等。
+
 ### 强缓存 和 协商缓存 区别?什么时候用哪个?本质是?
+
+概念
+
+强缓存: 浏览器根据响应头中的 Expires 或 Cache-Control 指令来判断资源是否有效，如果有效则直接从缓存加载。  
+协商缓存: 当浏览器不确定缓存的有效性时，会向服务器发送条件请求（例如使用 If-Modified-Since 或 If-None-Match）来确认资源是否已更新。
+
+控制机制
+
+强缓存:使用 Expires 头指定资源过期时间。使用 Cache-Control 头中的 max-age 指定资源的有效时间。  
+协商缓存:使用 Last-Modified 和 If-Modified-Since 来检查资源是否已修改。使用 ETag 和 If-None-Match 来验证资源版本。
+
+使用场景
+
+强缓存: 适用于静态资源，如图片、CSS、JavaScript 文件等，这些资源在部署后很少改变。  
+协商缓存: 适用于动态资源或可能频繁变化的内容，如动态生成的页面等。
+
+本质
+
+强缓存的本质是通过预设的有效期来避免不必要的网络请求,协商缓存的本质是在客户端和服务器之间进行协商，确定资源是否需要重新获取。
+
+选择使用
+
+对于几乎不会变化的资源，使用强缓存可以减少服务器负担，提高加载速度。  
+对于可能会发生变化的资源，使用协商缓存可以在保证资源是最新的同时，减少不必要的数据传输。
 
 ### cache-control 的值有哪些
 
@@ -3741,6 +3908,8 @@ Cache-Control 是一个 HTTP 头部，用于指定缓存机制的指令，控制
 使用场景：用于静态资源，如版本化的图像或脚本文件，确保在指定时间内不改变。
 
 ### 谈谈 304 状态码
+
+（未修改） 自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。
 
 ### 什么是 CDN，以及如何优化?
 
@@ -3800,6 +3969,56 @@ DNS（域名系统，Domain Name System）是一个分布式的、层次化的�
 
 ### this指向
 
+1. 全局上下文：在全局作用域中，this 指向全局对象。在浏览器环境中，全局对象是 window；在 Node.js 环境中，全局对象是 global
+2. 函数调用：当函数作为普通函数调用时，this 通常指向全局对象（在严格模式下，this 为 undefined）。
+3. 对象方法调用：当函数作为对象的方法被调用时，this 指向调用该方法的对象。
+4. 构造函数：当函数作为构造函数被调用时（使用 new 关键字），this 指向新创建的对象。
+
+```javascript
+function MyConstructor() {
+    this.myProperty = 'value';
+}
+
+const myInstance = new MyConstructor();
+console.log(myInstance.myProperty); // 输出：'value'
+```
+
+5. 箭头函数：箭头函数没有自己的 this，它会捕获其所在上下文的 this 值。javascript箭头函数中的 this 指向定义箭头函数时的上下文中的 this 值，而不是调用时的上下文。这意味着箭头函数内部的 this 与外层非箭头函数的 this 值相同。
+
+```javascript
+const myObject = {
+    myMethod: function() {
+        const arrowFunction = () => {
+            console.log(this);
+        };
+        arrowFunction();
+    }
+};
+
+myObject.myMethod(); // 输出：myObject
+```
+
+在这个例子中，arrowFunction 是一个箭头函数，它捕获了 myMethod 方法中的 this 值。因此，当调用 arrowFunction 时，this 指向 myObject。
+
+6. 显式绑定：可以使用 call、apply 或 bind 方法显式地设置函数调用时的 this 值。
+
+```javascript
+function myFunction() {
+    console.log(this);
+}
+
+const myObject = {};
+
+myFunction.call(myObject); // 输出：myObject
+myFunction.apply(myObject); // 输出：myObject
+
+const boundFunction = myFunction.bind(myObject);
+boundFunction(); // 输出：myObject
+```
+
+在这个例子中，通过 call、apply 和 bind 方法，我们可以显式地将 myFunction 的 this 设置为 myObject。
+this 的指向取决于函数的调用方式,
+
 ### 如何判断对象为空
 
 ### 函数柯里化 实现一个add 函数满足能力
@@ -3808,65 +4027,938 @@ DNS（域名系统，Domain Name System）是一个分布式的、层次化的�
 
 ### 假设前端需要发 n个请求(n很大)，写一个方法同时只并发10个请求，直到n个请求完成
 
+```javascript
+
+function fetchWithConcurrency(n, concurrencyLimit) {
+  return new Promise((resolve, reject) => {
+    const results = [];
+    let activeRequests = 0;
+    let completedRequests = 0;
+    let index = 0;
+
+    function fetchNext() {
+      if (completedRequests === n) {
+        resolve(results);
+        return;
+      }
+
+      while (activeRequests < concurrencyLimit && index < n) {
+        const currentIndex = index++;
+        activeRequests++;
+
+        fetch(`https://example.com/api/data/${currentIndex}`)
+          .then(response => response.json())
+          .then(data => {
+            results[currentIndex] = data;
+            completedRequests++;
+            activeRequests--;
+            fetchNext();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      }
+    }
+
+    fetchNext();
+  });
+}
+
+// 使用示例
+fetchWithConcurrency(100, 10)
+  .then(results => {
+    console.log('所有请求已完成:', results);
+  })
+  .catch(error => {
+    console.error('请求出错:', error);
+  });
+  
+```
+
 ### 实现转化下划线命名到驼峰命名
+
+```javascript
+
+function toCamelCase(str) {
+  // 使用split
+  // return str.split('_').map((word, index) => {
+  //       return index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1);
+  //   }).join('');
+
+  // 正则方式
+  return str.replace(/_([a-z])/g, function(match, letter) {
+    return letter.toUpperCase();
+  });
+}
+
+// 使用示例
+const underscoredStr = 'this_is_a_test_string';
+const camelCaseStr = toCamelCase(underscoredStr);
+
+console.log(camelCaseStr); // 输出: "thisIsATestString"
+```
 
 ### 实现对象深拷贝
 
+1. 递归方法来遍历对象的属性并进行深拷贝
+
+```javascript
+function deepCopy(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  let copy = Array.isArray(obj) ? [] : {};
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      copy[key] = deepCopy(obj[key]);
+    }
+  }
+
+  // 处理 Symbol 类型属性
+  const symbols = Object.getOwnPropertySymbols(obj);
+  symbols.forEach(symbol => {
+    copy[symbol] = deepCopy(obj[symbol]);
+  });
+
+  return copy;
+}
+
+// 使用示例
+const original = {
+  a: 1,
+  b: {
+    c: 2,
+    d: [3, 4]
+  },
+  [Symbol('mySymbol')]: 'symbolValue'
+};
+
+const copied = deepCopy(original);
+console.log(copied); // { a: 1, b: { c: 2, d: [3, 4] }, Symbol(mySymbol): 'symbolValue' }
+```
+
 ### 如果已经有三个 promise，A、B 和 C，想串行执行，该怎么写?
+
+```javascript
+async function executePromisesInSeries() {
+  try {
+    const resultA = await A();
+    console.log('A 完成，结果:', resultA);
+
+    const resultB = await B();
+    console.log('B 完成，结果:', resultB);
+
+    const resultC = await C();
+    console.log('C 完成，结果:', resultC);
+  } catch (error) {
+    console.error('执行过程中发生错误:', error);
+  }
+}
+
+```
 
 ## 网络安全
 
 ### 什么是 xss 攻击及如何防范
 
+XSS（Cross-Site Scripting，跨站脚本攻击）是一种常见的网络安全漏洞，攻击者通过在目标网站上注入恶意脚本，使其在用户的浏览器中执行，从而窃取用户信息、篡改网页内容或进行其他恶意行为。
+
+XSS 攻击的类型
+
+反射型 XSS：攻击者将恶意脚本注入到 URL 参数中，用户点击链接后，服务器返回包含恶意脚本的网页，浏览器执行该脚本。
+
+存储型 XSS：攻击者将恶意脚本存储在目标网站的数据库中，当其他用户访问网站时，恶意脚本被取出并执行。
+
+DOM 型 XSS：攻击者通过修改网页的 DOM 结构，注入恶意脚本。这种攻击不需要服务器参与，完全在客户端执行。
+
+如何防范 XSS 攻击
+
+输入验证：对用户输入的数据进行严格的验证，确保数据符合预期的格式和类型。
+
+输出编码：在将用户输入的数据插入到 HTML 页面时，对特殊字符进行转义编码，防止恶意脚本被执行。
+
+使用内容安全策略（CSP）：CSP 是一种安全特性，可以限制浏览器加载和执行外部资源，如 JavaScript 文件、CSS 文件等。通过设置合适的 CSP 策略，可以有效防止 XSS 攻击。
+
+启用 HTTP Only 和 Secure 标志：为 Cookie 设置 HTTP Only 标志可以防止 JavaScript 访问 Cookie，从而降低 XSS 攻击的风险。Secure 标志可以确保 Cookie 只在 HTTPS 连接中传输，防止中间人攻击。
+
+使用安全的编程实践：遵循安全的编程实践，如避免使用 innerHTML，使用 textContent 或 innerText 插入文本内容，使用 createElement 和 appendChild 创建和插入元素等。
+
+定期审查和更新：定期审查网站的安全性，及时修复已知的安全漏洞，并保持软件和依赖库的更新。
+
+通过采取这些措施，可以有效地防范 XSS 攻击，保护网站和用户的安全。
+
 ### 什么是 ddox 攻击及如何防范?
 
+DDoS（Distributed Denial of Service，分布式拒绝服务）攻击是一种网络攻击手段，攻击者通过控制大量受感染的计算机（称为僵尸网络）同时向目标系统发送大量请求，导致目标系统资源耗尽，无法正常提供服务。
+
+DDoS 攻击的类型
+洪水攻击：攻击者向目标发送大量数据包，耗尽目标的网络带宽。
+
+协议攻击：攻击者利用网络协议的漏洞，发送特殊构造的请求，导致目标系统资源耗尽。
+
+应用层攻击：攻击者针对目标系统的特定应用，发送大量请求，耗尽服务器的处理能力或资源。
+
+如何防范 DDoS 攻击
+增加带宽：提高网络带宽可以在一定程度上抵御 DDoS 攻击，但这并不能完全解决问题，因为攻击者可能会增加攻击流量。
+
+使用防火墙和入侵检测系统：配置防火墙和入侵检测系统，过滤掉恶意流量，阻止攻击者进入网络。
+
+部署 DDoS 防护设备：使用专门的 DDoS 防护设备或服务，可以有效地识别和过滤恶意流量，保护目标系统。
+
+使用内容分发网络（CDN）：CDN 可以分散请求流量，减轻目标服务器的压力，提高网站的可用性。
+
+限制连接数和请求速率：对目标系统的连接数和请求速率进行限制，防止攻击者消耗过多资源。
+
+启用负载均衡：通过负载均衡技术，将流量分散到多个服务器上，提高系统的抗压能力。
+
+备份和恢复计划：制定备份和恢复计划，确保在遭受 DDoS 攻击时，能够快速恢复服务。
+
+定期审查和更新：定期审查网络安全性，及时修复已知的安全漏洞，并保持软件和依赖库的更新。
+
 ### 什么是 csrf 攻击及如何防范?
+
+CSRF（Cross-Site Request Forgery，跨站请求伪造）是一种网络攻击手段，攻击者通过诱导用户在已登录的网站上执行非预期的操作，从而达到攻击目的。例如，攻击者可能诱使用户点击一个恶意链接，导致用户在不知情的情况下转账、修改密码等。
+
+CSRF 攻击的原理
+用户登录网站 A，并在浏览器中保存了登录状态（如 Cookie）。
+攻击者创建一个恶意网站 B，诱导用户访问。
+用户在访问网站 B 时，网站 B 向网站 A 发送请求，携带用户的登录状态。
+网站 A 认为这是用户发起的合法请求，执行相应操作。
+
+1. 使用 CSRF 令牌：在表单中添加一个随机生成的 CSRF 令牌，服务器端验证该令牌是否匹配。攻击者无法预测这个令牌，因此无法伪造请求。
+2. 验证请求来源：检查 HTTP 请求头中的 Referer 或 Origin 字段，确保请求来自合法的源。
+3. 使用 SameSite Cookie 属性：设置 Cookie 的 SameSite 属性为 Strict 或 Lax，限制 Cookie 在跨站请求中的发送。
+4. 避免使用 GET 请求执行敏感操作：尽量使用 POST、PUT 或 DELETE 请求执行敏感操作，因为这些请求不容易被第三方网站伪造。
+5. 定期审查和更新：定期审查网站的安全性，及时修复已知的安全漏洞，并保持软件和依赖库的更新。
+
+```javascript
+
+<form action="/submit" method="POST">
+  <input type="hidden" name="csrf_token" value="random_token">
+  <!-- 其他表单字段 -->
+  <button type="submit">提交</button>
+</form>
+
+app.use((req, res, next) => {
+  if (req.headers.referer === 'https://yourdomain.com' || req.headers.origin === 'https://yourdomain.com') {
+    next();
+  } else {
+    res.status(403).send('Forbidden');
+  }
+});
+
+/* Set-Cookie: session_id=12345; SameSite=Strict; */
+```
+
+### CSRF攻击和XSS攻击有什么区别？
+
+CSRF（跨站请求伪造）攻击和XSS（跨站脚本攻击）都是网络安全领域常见的攻击类型，但它们之间存在一些关键区别：
+
+CSRF 攻击
+攻击目标：CSRF 攻击的目标是利用用户在已登录网站上的身份执行非预期的操作，如转账、修改密码等。
+
+攻击方式：攻击者通过诱导用户访问恶意网站或点击恶意链接，利用用户浏览器中保存的登录状态（如 Cookie）向目
+标网站发送请求。
+
+攻击原理：CSRF 攻击利用了浏览器对已登录网站的会话状态的信任，使攻击者能够在用户不知情的情况下执行操作。
+
+防御措施：使用 CSRF 令牌、验证请求来源、设置 SameSite Cookie 属性等方法可以防御 CSRF 攻击。
+
+ XSS 攻击
+攻击目标：XSS 攻击的目标是向目标网站注入恶意脚本，使其在用户的浏览器中执行，从而窃取用户信息、篡改网页内容或进行其他恶意行为。
+
+攻击方式：攻击者通过在目标网站的输入框、评论区等地方插入恶意脚本，当其他用户访问网站时，恶意脚本被执行。
+
+攻击原理：XSS 攻击利用了网站对用户输入的处理不当，使攻击者能够注入并执行恶意脚本。
+
+防御措施：对用户输入进行严格的验证和过滤、输出编码、使用内容安全策略（CSP）等方法可以防御 XSS 攻击。
+
+CSRF 攻击关注的是利用用户身份执行非预期操作，而 XSS 攻击关注的是在用户浏览器中执行恶意脚本。  
+CSRF 攻击通常需要用户与恶意网站或链接进行交互，而 XSS 攻击则依赖于网站对用户输入的处理不当。  
+防御 CSRF 攻击的方法主要包括使用 CSRF 令牌、验证请求来源等，而防御 XSS 攻击的方法主要包括输入验证、输出编码、使用 CSP 等。
 
 ## 前端工程化
 
 ### 如何理解前端模块化、前端组件化，二者有何区别?
 
+它们旨在提高代码的可维护性、可复用性和可扩展性。
+
+前端模块化
+
+前端模块化是指将代码分割成独立的、可复用的模块，每个模块负责完成特定的功能。模块化的目的是解耦代码，使得代码更易于组织和维护。在前端开发中，模块化可以通过以下几种方式实现：
+
+CommonJS：一种同步加载模块的规范，主要用于 Node.js 环境。
+
+AMD（Asynchronous Module Definition）：一种异步加载模块的规范，主要用于浏览器环境。
+
+ES6 Modules：ECMAScript 2015 引入的原生模块系统，支持同步和异步加载模块。
+
+前端组件化
+
+前端组件化是指将 UI 划分为独立的、可复用的组件，每个组件负责渲染一部分 UI 并处理相关的交互逻辑。组件化的目的是提高代码的复用性和可维护性，使得开发者能够更高效地构建复杂的 UI。在前端开发中，组件化可以通过以下几种方式实现：
+
+原生 Web Components：一种基于 Custom Elements 和 Shadow DOM 的标准，用于创建可复用的自定义元素。
+
+框架组件系统：如 React、Vue 和 Angular 等前端框架提供的组件系统，支持创建和管理组件。
+
+区别
+
+关注点不同：模块化关注的是代码的组织和管理，将代码分割成独立的模块；而组件化关注的是 UI 的构建和复用，将 UI 划分为独立的组件。
+
+粒度不同：模块化的粒度较大，通常是一个功能模块；而组件化的粒度较小，通常是一个 UI 组件。
+
+实现方式不同：模块化主要通过模块加载器和模块规范（如 CommonJS、AMD 和 ES6 Modules）实现；而组件化主要通过 Web Components 标准和前端框架的组件系统实现。
+
 ### 如何理解前后端分离?
+
+它将应用程序的前端（用户界面）与后端（数据处理）进行分离。在这种模式下，前端负责展示和交互，后端负责数据处理和业务逻辑。这种架构模式带来了许多优势，如提高开发效率、降低耦合度、便于维护和部署
+
+前端需要处理更多业务逻辑：前端需要处理一部分原本由后端处理的业务逻辑，这可能会增加前端的开发工作量
+
+不利于SEO：由于页面数据异步渲染，搜索引擎可能无法有效抓取内容，影响网站的搜索引擎优化（SEO）
 
 ## webpack
 
 ### 有自己配置过 webpack 吗?如果需求是多页面与单页面并行，需要如何配置?
 
+#### MPA
+
+```javascript
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+module.exports = {
+  // 多个
+  entry: {
+    page1: './src/page1/index.js',
+    page2: './src/page2/index.js',
+    // 添加更多页面入口
+  },
+  // 单个
+  //  entry: './src/spa/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+  },
+  plugins: [
+    new CleanWebpackPlugin(), // 次构建之前清理输出目录
+    new HtmlWebpackPlugin({
+      template: './src/page1/index.html',
+      filename: 'page1.html',
+      chunks: ['page1'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/page2/index.html',
+      filename: 'page2.html',
+      chunks: ['page2'],
+    }),
+    // 添加更多页面的 HtmlWebpackPlugin 配置
+  ],
+  module: {
+    rules: [
+      // 你的其他 loader 配置
+    ],
+  },
+};
+// package.json配置多个脚本命令。
+ "scripts": {
+    "build:mpa": "webpack --config webpack.mpa.config.js",
+    "build:spa": "webpack --config webpack.spa.config.js",
+    "build": "npm run build:mpa && npm run build:spa"
+  }
+```
+
 ### Webpack 的优点是什么?
+
+1. 模块化支持如CommonJS、AMD、ES6 Modules 等，使得代码可以方便地进行模块化组织和管理。
+2. 代码分割：Webpack 支持代码分割，可以将大型应用拆分成多个小块，按需加载，提高应用的加载速度和性能。
+3. 热模块替换（HMR）：Webpack 支持热模块替换，可以在不刷新整个页面的情况下，实时更新修改过的模块，提高开发效率。
+4. 丰富的插件系统：Webpack 拥有丰富的插件系统，可以通过插件扩展其功能，如压缩、优化、代码检查等
+5. 优化功能：Webpack 提供了许多优化功能，如 Tree Shaking、代码压缩、拆分等，有助于减小打包文件的体积，提高应用的加载速度。
+
+6. 易于集成：Webpack 易于与其他工具和框架集成，如 Babel、React、Vue 等，方便开发者构建复杂的应用。
 
 ### Webpack 的构建流程是什么?从读取配置到输出文件这个过程尽量说
 
+读取配置文件：Webpack 首先读取项目根目录下的 webpack.config.js 配置文件。这个文件包含了构建过程中所需的各种配置信息，如入口文件、输出路径、加载器、插件等。
+
+解析入口文件：Webpack 根据配置文件中的入口文件路径，找到入口文件并开始解析。解析过程中，Webpack 会递归地读取模块依赖，形成一个依赖树。
+
+加载器处理：对于解析过程中遇到的不同类型的文件（如 JavaScript、CSS、图片等），Webpack 会使用相应的加载器对文件进行处理。加载器会将这些文件转换为 Webpack 可以处理的模块。
+
+插件处理：在构建过程中，Webpack 会执行配置文件中定义的插件。插件可以在构建过程的不同阶段执行特定的任务，如代码压缩、优化、生成 HTML 文件等。
+
+输出文件：经过加载器和插件的处理后，Webpack 会将处理后的模块打包成一个或多个文件，并将这些文件输出到配置文件中指定的输出路径。
+
+优化：在输出文件之前，Webpack 会对打包后的文件进行优化，如删除未使用的代码（Tree Shaking）、压缩代码、拆分代码等。
+
+完成构建：Webpack 完成构建过程，输出最终的文件。
+
+读取配置文件  
+  ├── 解析入口文件  
+  │   ├── 加载器处理  
+  │   └── 插件处理  
+  ├── 输出文件  
+  │   └── 优化  
+  └── 完成构建  
+
 ### 说-下 Webpack 的热更新原理
+
+模块热替换：Webpack 在编译过程中，会为每个模块生成一个 ID，并在内存中维护一个模块 ID 和模块实例的映射关系。当修改了一个模块的代码后，Webpack 会重新编译这个模块，并生成一个新的模块 ID。然后，Webpack 会通过 WebSocket 或轮询的方式通知浏览器端的 HMR 客户端，告诉它哪些模块发生了变化。
+
+HMR 客户端：浏览器端的 HMR 客户端是一个由 Webpack 插件生成的 JavaScript 文件，它会监听来自 Webpack 的更新通知。当收到更新通知时，HMR 客户端会根据模块 ID 找到对应的模块实例，并用新的模块实例替换旧的模块实例。
+
+模块替换策略：HMR 客户端在替换模块时，会根据模块的类型采取不同的策略。对于原生 JavaScript 模块，HMR 客户端会直接替换模块实例；对于 CSS 模块，HMR 客户端会通过操作 DOM 来更新样式；对于 HTML 模块，HMR 客户端会重新渲染整个页面。
+
+兼容性处理：为了确保 HMR 在不同浏览器中的兼容性，Webpack 会使用 polyfill 或垫片来填补浏览器之间的差异。
+
+配置：要启用 HMR，需要在 Webpack 配置文件中设置 hot: true，并添加相应的 HMR 插件。例如，在 Webpack 4 中，可以使用 HotModuleReplacementPlugin 插件来启用 HMR。
 
 ### 有哪些常见的 Loader?他们是解决什么问题的
 
+1.babel-loader：将 ES6+ 代码转换为浏览器兼容的 ES5 代码
+2. css-loader：解析 CSS 文件中的 @import 和 url() 语句，并将 CSS 转换为 JavaScript 模块。解决 CSS 文件导入和 URL 处理问题。
+3. style-loader：将 CSS 代码注入到 JavaScript 中,通过`<style>` 标签插入到 HTML 页面中。解决 CSS 样式应用问题。
+4. sass-loader：将 Sass/SCSS 代码转换为 CSS 代码
+5. file-loader：处理文件（如图片、字体等），将文件复制到输出目录
+6. url-loader：将文件（如图片、字体等）转换为 base64 编码的 Data URL
+
 ### loader 和 Plugin 的不同?
+
+#### Loader
+
+作用范围：Loader 主要用于处理单个文件或模块，将一种文件类型转换为另一种文件类型。例如，babel-loader 将 ES6+ 代码转换为 ES5 代码，css-loader 将 CSS 文件转换为 JavaScript 模块。
+
+工作时机：Loader 在构建过程中的 module.rules 配置中定义，Webpack 在解析模块时按照配置的顺序依次应用 Loader。
+
+返回值：Loader 返回一个新的模块，该模块可以是转换后的代码、资源 URL 等。
+
+链式调用：多个 Loader 可以链式调用，Webpack 会按照配置的顺序依次应用它们。
+
+#### Plugin
+
+作用范围：Plugin 的作用范围更广泛，可以影响整个构建过程。Plugin 可以在构建过程中的不同阶段执行特定的任务，如代码压缩、优化、生成 HTML 文件等。
+
+工作时机：Plugin 在构建过程中的 plugins 配置中定义，Webpack 在构建的不同阶段调用相应的 Plugin。
+
+返回值：Plugin 通常不返回值，而是在特定阶段执行特定的操作。
+
+独立性：Plugin 是独立的插件系统，可以单独安装和使用，不需要与其他 Plugin 链式调用。
+
+Loader 主要用于处理单个文件或模块，转换文件类型；而 Plugin 则用于影响整个构建过程，执行特定的任务。在实际项目中，Loader 和 Plugin 可以结合使用，以实现更复杂的构建需求。
 
 ### 如何利用 Webpack 来优化前端性能
 
+1. 代码分割
+2. Tree Shaking消除未使用的代码来减小打包文件体积
+3. 压缩代码使用压缩插件（如 TerserWebpackPlugin）
+4. 通过配置缓存，可以加快构建速度。例如，使用 cache-loader 缓存编译结果，使用 contenthash 为文件名添加哈希值。
+5. 使用 image-webpack-loader 等插件来压缩图片，减小图片文件的体积。对于字体等资源，可以使用 url-loader 和 file-loader 来处理。
+6. 将静态资源部署到 CDN，加快资源加载速度。
+7. 使用 webpack-bundle-analyzer 插件分析打包结果，找出体积较大的模块，进一步优化
+
+```javascript
+// webpack.config.js
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+};
+// 2
+module.exports = {
+  // ...
+  mode: 'production',
+};
+//  3
+// webpack.config.js
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+
+module.exports = {
+  // ...
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserWebpackPlugin()],
+  },
+};
+// 4. 
+module.exports = {
+  // ...
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['cache-loader', 'babel-loader'],
+      },
+    ],
+  },
+};
+// 5
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+              outputPath: 'images',
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65,
+              },
+              optipng: {
+                enabled: false,
+              },
+              pngquant: {
+                quality: [0.65, 0.90],
+                speed: 4,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+// 6. 
+module.exports = {
+  // ...
+  output: {
+    publicPath: 'https://cdn.example.com/',
+  },
+};
+// 7.
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = {
+  // ...
+  plugins: [
+    new BundleAnalyzerPlugin(),
+  ],
+};
+```
+
 ### 是否写过 Loader 和 Plugin?描述-下编写 loader 或 plugin 的思路?
 
+```javascript
+// Loader uppercase
+module.exports = function(source) {
+  return source.toUpperCase();
+};
+// webpack.config.js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        test: /\.txt$/,
+        use: 'uppercase-loader',
+      },
+    ],
+  },
+};
+// plugin
+class LineCounterPlugin {
+  apply(compiler) {
+    compiler.hooks.emit.tapAsync('LineCounterPlugin', (compilation, callback) => {
+      let totalLines = 0;
+
+      Object.keys(compilation.assets).forEach(assetName => {
+        if (assetName.endsWith('.js')) {
+          const asset = compilation.assets[assetName];
+          const source = asset.source();
+          totalLines += source.split('\n').length;
+        }
+      });
+
+      console.log(`Total lines of JavaScript code: ${totalLines}`);
+      callback();
+    });
+  }
+}
+// 简单的 Plugin 来统计代码行数
+module.exports = LineCounterPlugin;
+// webpack.config.js
+module.exports = {
+  // ...
+  plugins: [
+    new LineCounterPlugin(),
+  ],
+};
+```
+
 ### 使用 Webpack 开发时，你用过哪些可以提高效率的插件?
+
+1. Webpack Bundle Analyzer：这个插件可以通过交互式的、可缩放的树状图来可视化webpack输出文件的大小，帮助你识别和优化体积大的模块
+2. imagemin-webpack-plugin：用于使用imagemin压缩图像，减小打包文件的大小
+3. CleanWebpackPlugin：在每次构建前清理上一次项目生成的捆绑文件，避免文件积累
+4. HtmlWebpackPlugin：动态生成HTML文件，自动引入JS和CSS文件，简化部署流程
+5. esbuidPlugin
 
 ### 什么是长缓存?在 Webpack 中如何做到长缓存优化?
 
 ### 如何提高 Webpack 的构建速度?
 
-### 怎么实现 Webpack 的按需加载?什么是神奇注释?
+1.启用缓存
+2. 代码分割
+3. Tree Shaking
+4. 使用多线程
+5. 优化 Loader 配置
+6. 优化 Plugin 配置
+
+### 怎么实现 Webpack 的按需加载?
+
+1. 使用 import() 动态导入
+2. splitChunks
+3. Webpack 的 require.ensure() 过时了
+
+```javascript
+// 使用动态 import() 按需加载模块
+async function loadModule() {
+  const module = await import('./module.js');
+  module.default();
+}
+// webpack.config.js
+module.exports = {
+  // ...
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+};
+```
+
+### 什么是神奇注释?
 
 ### Babel 的原理是什么?
 
+解析（Parsing）：Babel 首先将源代码解析成抽象语法树（AST）。AST 是一种树形数据结构，表示源代码的语法结构。
+
+转换（Transformation）：Babel 遍历 AST，对每个节点应用一系列的转换规则。这些规则定义了如何将 ES6+ 语法转换为 ES5 语法。Babel 的核心库包含许多内置的转换插件，可以处理大部分 ES6+ 特性。
+
+生成（Generation）：经过转换后的 AST 被重新生成为 ES5 代码。这个过程涉及将 AST 节点转换回 JavaScript 代码字符串。
+
+插件系统：Babel 的强大之处在于其插件系统。开发者可以根据需要编写自定义插件来处理特定的语法转换。这使得 Babel 能够支持不断发展的 JavaScript 语法和特性。
+
+预设（Presets）：为了简化配置，Babel 提供了一些预设，这些预设是一组预定义的插件集合。例如，@babel/preset-env 预设包含了将 ES6+ 代码转换为 ES5 代码所需的所有插件。
+
 ### 如何写-个 babel 插件?
 
-### rebase 与 merge 的区别?
+```javascript
+// 将所有的 console.log 语句替换为 console.info。
+module.exports = function() {
+  // module.exports = function(babel) {
+  // const { types: t } = babel;
 
-### git reset、 git revert 和 git checkout 有什么区别 ?
+  return {
+    visitor: {
+      CallExpression(path) {
+        const callee = path.node.callee;
+        if (callee.type === 'MemberExpression' && callee.object.name === 'console' && callee.property.name === 'log') {
+          callee.property.name = 'info';
+        }
+      },
+    },
+  };
+};
+module.exports = {
+  presets: ['@babel/preset-env'],
+  plugins: [
+    './replace-console-log-with-info.js',
+  ],
+};
+```
+
+#### babel常用方法
+
+babel.types：提供了一系列类型检查和构造函数，用于操作 AST 节点。  
+babel.template：提供了一个简单的模板字符串功能，用于生成 AST 节点。
+
+babel.traverse：提供了遍历 AST 的方法，可以用于访问和修改 AST 节点。  
+babel.transformFromAst：可以从 AST 转换为源代码。
+
+#### 一些AST节点类型
+
+Identifier：表示变量、函数名或其他标识符。
+
+Literal：表示字面量，如字符串、数字、布尔值等。
+
+VariableDeclaration：表示变量声明，如 var、let、const。
+
+FunctionDeclaration：表示函数声明。
+
+VariableDeclarator：表示变量声明中的初始化表达式。
+
+BlockStatement：表示代码块。
+
+ExpressionStatement：表示表达式语句。
+
+ReturnStatement：表示返回语句。
+
+IfStatement：表示条件语句。
+
+SwitchStatement：表示 switch 语句。
+
+WhileStatement：表示 while 循环。
+
+ForStatement：表示 for 循环。
+
+ForInStatement：表示 for...in 循环。
+
+ForOfStatement：表示 for...of 循环。
+
+NewExpression：表示创建新对象的表达式。
+
+CallExpression：表示函数调用表达式。
+
+MemberExpression：表示成员访问表达式，如 obj.prop。
+
+ArrayExpression：表示数组字面量。
+
+ObjectExpression：表示对象字面量。
+
+BinaryExpression：表示二元表达式，如 a + b。
+
+UnaryExpression：表示一元表达式，如 -a。
+
+UpdateExpression：表示更新表达式，如 a++。
+
+LogicalExpression：表示逻辑表达式，如 a && b。
+
+ConditionalExpression：表示条件表达式，如 a ? b : c。
+
+TemplateLiteral：表示模板字符串。
+
+TaggedTemplateExpression：表示带标签的模板字符串。
+
+ClassDeclaration：表示类声明。
+
+ClassExpression：表示类表达式。
+
+MetaProperty：表示元属性，如 new.target。
+
+ImportDeclaration：表示导入声明。
+
+ExportNamedDeclaration：表示命名导出声明。
+
+ExportDefaultDeclaration：表示默认导出声明。
+
+ExportAllDeclaration：表示导出所有声明。
+
+ImportExpression：表示导入表达式。
+
+ImportDefaultSpecifier：表示默认导入指定。
+
+ImportNamespaceSpecifier：表示命名空间导入指定。
+
+ImportSpecifier：表示导入指定。
+
+FunctionExpression：表示函数表达式。
+
+ArrowFunctionExpression：表示箭头函数表达式。
+
+SpreadElement：表示展开元素，如 ...args。
+
+RestElement：表示剩余元素，如 ...rest。
+
+ArrayPattern：表示数组模式。
+
+ObjectPattern：表示对象模式。
+
+AssignmentExpression：表示赋值表达式，如 a = b。
+
+SequenceExpression：表示序列表达式，如 a, b, c。
+
+ThisExpression：表示 this 表达式。
+
+**Super`除了之前提到的 AST 节点类型，Babel 的 AST 还包括以下一些类型：
+
+YieldExpression：表示 yield 表达式。
+
+AwaitExpression：表示 await 表达式。
+
+TemplateElement：表示模板字符串中的静态部分。
+
+ClassBody：表示类体，包含类的方法和属性。
+
+MethodDefinition：表示类方法定义。
+
+PropertyDefinition：表示类属性定义。
+
+Decorator：表示装饰器。
+
+BindingPattern：表示绑定模式，如解构赋值中的模式。
+
+ObjectPatternProperty：表示对象模式中的属性。
+
+ArrayPatternElements：表示数组模式中的元素。
+
+ForOfStatement：表示 for...of 循环。
+
+ImportAttribute：表示导入声明中的属性。
+
+ExportNamespaceSpecifier：表示命名空间导出指定。
+
+ExportDefaultSpecifier：表示默认导出指定。
+
+ExportSpecifier：表示导出指定。
+
+VariableDeclaratorId：表示变量声明中的标识符。
+
+FunctionParameter：表示函数参数。
+
+ArrowFunctionExpression：表示箭头函数表达式。
+
+ClassProperty：表示类属性。
+
+RestProperty：表示剩余属性，如 ...rest。
+
+SpreadProperty：表示展开属性，如 ...props。
+
+SuperProperty：表示 super 属性。
+
+MetaProperty：表示元属性，如 new.target。
+
+NewTargetExpression：表示 new.target 表达式。
+
+ImportBinding：表示导入绑定。
+
+ExportBinding：表示导出绑定。
+
+ClassImplements：表示类实现的接口。
+
+InterfaceDeclaration：表示接口声明。
+
+TypeAlias：表示类型别名。
+
+TSDeclareFunction：表示 TypeScript 声明的函数。
+
+TSDeclareMethod：表示 TypeScript 声明的方法。
+
+TSPropertySignature：表示 TypeScript 属性签名。
+
+TSMethodSignature：表示 TypeScript 方法签名。
+
+TSIndexSignature：表示 TypeScript 索引签名。
+
+TSFunctionType：表示 TypeScript 函数类型。
+
+TSConstructorType：表示 TypeScript 构造函数类型。
+
+TSImportType`：表示 TypeScript 导入类型。
+
+TSExportAssignment：表示 TypeScript 导出赋值。
+
+TSNamespaceExport：表示 TypeScript 命名空间导出。
+
+TSInterfaceBody：表示 TypeScript 接口体。
+
+TSExpressionWithTypeArguments：表示 TypeScript 带类型参数的表达式。
+
+TSPropertyAssignment：表示 TypeScript 属性赋值。
+
+TSMethodSignature：表示 TypeScript 方法签名。
+
+TSConstructorSignature：表示 TypeScript 构造函数签名。
+
+TSIndexSignature：表示 TypeScript 索引签名。
+
+TSFunctionType：表示 TypeScript 函数类型。
+
+TSConstructorType：表示 TypeScript 构造函数类型。
+
+TSImportType`：表示 TypeScript 导入类型。
+
+TSExportAssignment：表示 TypeScript 导出赋值。
+
+TSNamespaceExport：表示 TypeScript 命名空间导出。
+
+TSInterfaceBody：表示 TypeScript 接口体。
+
+TSExpressionWithTypeArguments：表示 TypeScript 带类型参数的表达式。
+
+TSPropertyAssignment：表示 TypeScript 属性赋值。
 
 ### webpack 和 vite 区别(模块化与流的区别)
 
+#### Webpack
+
+Webpack 是一个模块打包器，它将项目中的所有资源（如 JavaScript、CSS、图片等）视为模块，并通过加载器（loader）和插件（plugin）进行处理和优化。Webpack 的构建过程是单线程的，这意味着所有的模块都需要在同一个进程中处理。
+
+Webpack 的主要特点：
+
+模块化：Webpack 支持各种模块系统，如 CommonJS、AMD、ES6 Modules 等，可以将项目中的各种资源视为模块进行处理。
+加载器和插件：Webpack 提供了丰富的加载器和插件，可以对资源进行转换、优化和压缩等操作。
+
+代码分割：Webpack 支持代码分割，可以将大型项目拆分成多个小块，按需加载，提高应用的加载速度和性能。
+
+热模块替换（HMR）：Webpack 支持热模块替换，可以在不刷新整个页面的情况下，实时更新修改过的模块。
+
+#### Vite
+
+Vite 是一个基于浏览器原生 ES 模块（ESM）的构建工具，它利用了浏览器对 ESM 的支持来实现快速的开发服务器和按需加载。Vite 的构建过程是多线程的，这意味着它可以并行处理多个模块。
+
+Vite 的主要特点：
+
+流式构建：Vite 利用浏览器原生的 ESM 支持，实现了一种流式构建方式，可以快速启动开
+发服务器，并在开发过程中实现按需加载。
+
+模块热替换（HMR）：Vite 也支持模块热替换，可以在不刷新整个页面的情况下，实时更新修改过的模块。
+
+优化依赖预加载：Vite 会分析项目的依赖关系，并在开发服务器启动时预加载这些依赖，从而提高开发速度。
+
+灵活的插件系统：Vite 提供了一个灵活的插件系统，可以方便地扩展其功能。
+
+#### 区别
+
+模块化：Webpack 和 Vite 都支持模块化，但 Vite 更侧重于利用浏览器原生的 ESM 支持来实现快速的开发服务器和按需加载。
+
+构建流程：Webpack 的构建流程是单线程的，而 Vite 利用浏览器原生的 ESM 支持实现了流式构建，可以并行处理多个模块。
+
+开发速度：由于 Vite 利用了浏览器原生的 ESM 支持，它的开发速度通常比 Webpack 更快。
+
+生态系统：Webpack 拥有庞大的生态系统和丰富的插件，而 Vite 相对较新，但它的插件生态系统也在不断发展。
+
 ### webpack文件指纹策略:hash chunkhash contenthash
 
-### 研发协同(Git)
+hash：适用于整个构建过程的唯一哈希值，每次构建所有文件名都会变化。
+
+chunkhash：适用于每个代码块的唯一哈希值，只有修改的代码块文件名会变化。
+
+contenthash：适用于文件内容的唯一哈希值，只有内容变化的文件名会变化。
+
+## 研发协同(Git)
+
+### git reset、 git revert 和 git checkout 有什么区别 ?
+
+### rebase 与 merge 的区别?
 
 ### git 的基本使用方法
 
