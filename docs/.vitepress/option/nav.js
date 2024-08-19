@@ -20,5 +20,19 @@ export default [
     { text: '红宝书', link: '/red-treasure-book/' },
     { text: '袁老师的大师课', link: '/duyi-yuan/' },
     { text: '算法', link: '/arithmetic/' },
-    { text: '面试', link: '/interview/' }
+    {
+        text: '面试',
+        items: [
+            { text: '面试题', link: '/interview/' },
+            { text: '基础篇', link: 'interview/base' },
+            { text: '高频面试', link: '/interview/high-frequency', },
+            { text: '进阶面试', link: '/interview/advanced' },
+            { text: '精选面试', link: 'interview/selective' },
+            { text: '综合面试', link: 'interview/comprehensive' },
+            { text: '综合面试2', link: 'interview/synthesis' },
+            { text: '原理', link: 'interview/principle' },
+            { text: 'node', link: 'interview/node' },
+            { text: 'npm', link: 'interview/npm' },
+        ]
+    }
 ]

@@ -1,7 +1,7 @@
 
-## 高频面试题
+# 高频面试题
 
-### 1 CSS
+## 1 CSS
 
 盒模型
 BFC
@@ -18,7 +18,7 @@ flex布局
 如何画一个三角形
 两栏布局：左边定宽，右边自适应方案
 
-### 2 JavaScript
+## 2 JavaScript
 
 typeof类型判断
 类型转换
@@ -33,7 +33,7 @@ async/await异步总结
 Promise异步总结
 Event Loop执行机制过程
 
-### 3 浏览器
+## 3 浏览器
 
 储存
 浏览器缓存机制
@@ -45,7 +45,7 @@ Event Loop执行机制过程
 requestIdleCallback和requestAnimationFrame有什么区别
 script标签的defer和async有什么区别
 
-### 4 Vue2
+## 4 Vue2
 
 响应式原理
 vdom和diff算法
@@ -56,7 +56,7 @@ Vue的生命周期方法有哪些
 如何统一监听Vue组件报错
 在实际工作中，你对Vue做过哪些优化
 
-### 5 Vue3
+## 5 Vue3
 
 vue3 对 vue2 有什么优势
 vue3 和 vue2 的生命周期有什么区别
@@ -79,24 +79,6 @@ SSR和Tree-shaking的优化
 Vite 为什么启动非常快
 Composition API 和 React Hooks 的对比
 
-### 6 React
-
-JSX本质
-React合成事件机制
-setState和batchUpdate机制
-根据jsx写出vnode和render函数
-虚拟DOM（vdom）真的很快吗
-react组件渲染过程
-React setState经典面试题
-React useEffect闭包陷阱问题
-Vue React diff 算法有什么区别
-如何统一监听React组件报错
-在实际工作中，你对React做过哪些优化
-React真题
-React和Vue的区别（常考）
-
-### 7 React Hooks
-
 class组件存在哪些问题
 用useState实现state和setState功能
 用useEffect模拟组件生命周期
@@ -112,7 +94,7 @@ class组件逻辑复用有哪些问题
 Hooks组件逻辑复用有哪些好处
 Hooks使用中的几个注意事项
 
-### 8 Webpack
+## 8 Webpack
 
 hash、chunkhash、contenthash区别
 webpack常用插件总结
@@ -121,7 +103,7 @@ webpack原理简述
 webpack性能优化-构建速度
 webpack性能优化-产出代码（线上运行）
 
-### 9 HTTP
+## 9 HTTP
 
 HTTP基础总结
 HTTP缓存
@@ -132,12 +114,12 @@ HTTP跨域请求时为什么要发送options请求
 HTTP请求中token、cookie、session有什么区别
 什么是HTTPS中间人攻击，如何预防（HTTPS加密过程、原理）
 
-### 10 Node
+## 10 Node
 
 浏览器和nodejs事件循环（Event Loop）有什么区别
 nodejs如何开启多进程，进程如何通讯
 
-### 11 综合题目
+## 11 综合题目
 
 你们的工作流程是怎么样的
 工作中遇到过哪些项目难点，是如何解决的
@@ -154,7 +136,7 @@ H5页面如何进行首屏优化
 首屏渲染优化
 interface和type的区别（常考）
 
-### 12 手写题
+## 12 手写题
 
 防抖
 节流
@@ -179,7 +161,7 @@ JS反转字符串
 手写Vue3基本响应式原理
 实现一个简洁版的promise
 
-### 13 算法题
+## 13 算法题
 
 时间复杂度与空间复杂度基本概念
 实现数字千分位格式化
