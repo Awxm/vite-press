@@ -247,7 +247,7 @@ img 元素默认是 inline 元素，但可以设置宽度和高度。这是因�
 * 改变背景色（background-color）
 * 改变边框颜色（border-color
 
-2. 回流
+2. 回流（重排）
 
 * 添加或删除DOM元素
 * 改变元素的尺寸（width, height）
