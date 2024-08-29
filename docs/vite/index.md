@@ -1,3 +1,6 @@
+# VITE配置
+
+```json
 {
   root: process.cwd(), // 项目根目录（index.html 文件所在的位置）,
   base: '/', // 开发或生产环境服务的公共基础路径 配置引入相对路径
@@ -51,7 +54,7 @@
     open: true, // 启动时自动在浏览器中打开应用程序
     proxy: { // 配置自定义代理规则
       '/api': {
-        target: 'http://jsonplaceholder.typicode.com',
+        target: '<http://jsonplaceholder.typicode.com>',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^/api/, '')
       }
@@ -70,7 +73,7 @@
       allow: [], // 限制哪些文件可以通过 /@fs/ 路径提供服务
       deny: ['.env', '.env.*', '*.{pem,crt}'], // 用于限制 Vite 开发服务器提供敏感文件的黑名单
     },
-    origin: 'http://127.0.0.1:8080/', // 用于定义开发调试阶段生成资产的 origin
+    origin: '<http://127.0.0.1:8080/>', // 用于定义开发调试阶段生成资产的 origin
   },
   build: {
     target: ['modules'], // 设置最终构建的浏览器兼容目标
@@ -101,7 +104,7 @@
     open: true, // 启动时自动在浏览器中打开应用程序
     proxy: { // 配置自定义代理规则
       '/api': {
-        target: 'http://jsonplaceholder.typicode.com',
+        target: '<http://jsonplaceholder.typicode.com>',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^/api/, '')
       }
@@ -120,3 +123,4 @@
     target: 'node', // SSR 服务器的构建目标
   }
 }
+```

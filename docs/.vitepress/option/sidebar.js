@@ -25,9 +25,10 @@ export default {
                 { text: 'JavaScript 数据结构', link: '/javaScript/chapter3' },
                 { text: '如何正确判断相等性', link: '/javaScript/chapter3' },
                 { text: '属性的可枚举性和所有权', link: '/javaScript/chapter3' },
+                { text: '作用域', link: '/javaScript/scope' },
+                { text: '继承和原型链', link: '/javaScript/prototype' },
                 { text: '闭包', link: '/javaScript/closure' },
                 { text: '垃圾回收机制', link: '/javaScript/gc' },
-                { text: '继承和原型链', link: '/javaScript/prototype' },
                 { text: '内存管理', link: '/javaScript/chapter3' },
                 { text: '并发模型与事件循环', link: '/javaScript/chapter3' },
             ]
