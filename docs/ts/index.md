@@ -201,3 +201,307 @@ log('hello'); // 正常
 2. 从语义上讲:函数调用者不应关心函数返回的值，也不应依赖返回值进行任何操作!即使返回了 undefined 值。
 
 ::：
+
+### object
+
+1. object 表示**非原始类型**，它可以存储对象、函数、数组等。由于限制的范围比较宽泛。实际开发中使用的比较少。
+2. Object(大写) 表示可以调用Object方法的类型，也就是除了null和undefined以外的任意值。同时由于限制的范围也是太大了。实际开发中使用的比较少。
+
+```ts
+
+let a: object;
+let b: Object;
+
+a = {};
+a = { name: 'tom' };
+a = [];
+a = ['1', '12'];
+a = function () {};
+a = new String('hello');
+class Person {}
+a = new Person();
+
+a = 1; // 不能将类型“number”分配给类型“object”。
+a = 'hello'; // 不能将类型“string”分配给类型“object”。
+a = true; // 不能将类型“boolean”分配给类型“object”。
+a = null; // 不能将类型“null”分配给类型“object”。
+a = undefined; // 不能将类型“undefined”分配给类型“object”。
+
+
+
+b = {};
+b = { name: 'tom' };
+b = [];
+b = ['1', '12'];
+b = function () {};
+b = new String('hello');
+class Person {}
+b = new Person();
+b = 1;
+b = 'hello';
+b = true;
+
+b = null; // 不能将类型“null”分配给类型“Object”
+b = undefined; //不能将类型“undefined”分配给类型“Object”
+
+```
+
+想像一下我们要声明一个对象呢?
+
+#### 声明对象类型
+
+```ts
+let user: { name: string; age: number };
+user = { name: 'Chenxin', age: 26 };
+// 可选属性使用?
+let user2: { name: string; age?: number };
+// 任意属性使用[key: string]: any,索引签名
+// 一般使用key index k 就是给一个形式。
+let user3: { name: string; age: number; [key: string]: any };
+```
+
+:::tip
+索引签名: 允许定义对象可以具有任意数量的属性，这些属性的键和类型是可变的，常用于:描述类型不确定的属性，(具有动本属性的对象)。
+:::
+
+#### 声明函数类型
+
+  ```ts
+let count: (x: number, y: number) => number;
+count = function (x: number, y: number): number {
+  return x + y;
+};
+// 也可以使用箭头函数
+count = (x: number, y: number) => x + y;
+// 还可以省略参数类型
+count = (x, y) => x + y;
+// 还可以省略返回类型
+  ```
+
+1. **TypeScript**中的`=>`在的数类型声明时表示**函数类型**，
+2. 描述其参数类型和透回类型、JavaScript 中的`=>`是一种定义的数的语法，是具体的函数实现。
+3. 函数类型声明还可以使用:**接口**、**自定义类型**等方式
+
+#### 数组类型
+
+  ```ts
+  let arr: number[] = [1, 2, 3];
+  let arr1: Array<number> = [1, 2, 3];
+  let arr2: Array<string | number> = [1, '2', 3];
+  let arr3: (string | number)[] = [1, '2', 3];
+  ```
+
+### tuple
+
+元组(Tuple)是一种特殊的**数组类型**，可以存**固定数量**的元素，并且每个元素**类型是已知**的**且可以不同**。元组用于**精确描述一组值的类型**，**?**表示**可选元素**。
+
+```ts
+let a: [string, number];
+// 第一个元素必须是number 类型，第二个元素是可选的，如果存在，必须是 boolean 类型
+let b: [number, boolean?];
+// 无限元组
+let c: [string, number, boolean,...string[]];
+
+a = ['hello', 123];
+b = ['hello']; // true,false 可有可无
+c = ['hello', 123, true, 'world', false];
+```
+
+### enum
+
+枚举(enum )可以定义一组命名常量，它能增强代码的可读性，也让代码更好维护。
+
+下面这个代码看起来是不是比较难维护随着color的增加返回的return值也会增加.
+
+```ts
+const color: (key: string) => string = (key) => {
+  if (key === 'red') {
+    return '1';
+  }
+  if (key === 'green') {
+    return '2';
+  }
+  if (key === 'blue') {
+    return '3';
+  }
+  return '0';
+};
+
+enum Color {
+  Red,
+  Green,
+  Blue,
+}
+
+// 修改成为
+const color1: (key: Color) => number = (key: Color): Color => {
+  if (key === Color.Red) {
+    return Color.Red;
+  } else if (key === Color.Green) {
+    return Color.Green;
+  } else if (key === Color.Blue) {
+    return Color.Red;
+  }
+  return Color.Red;
+};
+
+```
+
+#### 数字枚举
+
+数字枚举一种最常见的枚举类型指枚举成员的值都是数字，并且**从 0 开始**，**逐一递增**，**没有重复值**。其成员的值自动邀形且数字枚举还具备**反向映射**的特点，
+在下面代码的打印中，不难发现可以通过值来获取对应的枚举成员名称.
+
+```ts
+enum Color {        
+  Red,// 0
+  Green, // 1
+  Blue, // 2
+  Yellow = 10,
+  Pink, // 自动赋值11
+
+}
+console.log(Color.Red); // 0
+{
+  0: "Red",
+  1: "Green",
+  2: "Blue",
+  Red:0,
+  Green:1,
+  Blue:2
+}
+console.log(Color.Red); // 0
+console.log(Color[0]); // "Red"
+// 枚举是只读的不能赋值
+Color[0] = "Yellow"; // error
+Color.Red = 1; // error
+```
+
+#### 字符串枚举
+
+字符串枚举是指枚举成员的值都是字符串，不是数字递增的。其成员的值是字符串字面量，不能使用反向映射。
+
+```ts
+enum Color {
+  Red = 'RED',
+  Green = 'GREEN',
+  Blue = 'BLUE',
+}
+console.log(Color.Red); // "RED"
+console.log(Color[0]); // 元素隐式具有 "any" 类型，因为类型为 "0" 的表达式不能用于索引类型 "typeof Color"。
+console.log(Color['Red']); // RED
+console.log(Color['RED']); // 报错
+```
+
+#### 常量枚举
+
+```ts
+
+enum Color {
+  Red,
+  Green,
+  Blue,
+}
+
+console.log(Color.Red); // "RED"
+
+//  编译后的代码
+"use strict";
+var Color;
+(function (Color) {
+    Color[Color["Red"] = 0] = "Red";
+    Color[Color["Green"] = 1] = "Green";
+    Color[Color["Blue"] = 2] = "Blue";
+})(Color || (Color = {}));
+console.log(Color.Red); // "RED"
+
+// 加上const 
+
+const enum Color {
+  Red,
+  Green,
+  Blue,
+}
+
+console.log(Color.Red); // 0
+
+// 编译后的代码
+"use strict";
+console.log(0 /* Color.Red */); // "RED"
+
+// 如果没有用的话就什么都没有
+
+```
+
+#### 联合枚举
+
+联合枚举是指枚举成员的值可以是不同类型，可以是数字或字符串。
+
+```ts
+enum Color {
+  Red = 1,
+  Green = '2',
+  Blue,
+}
+
+console.log(Color.Red); // 1
+console.log(Color.Green); // "2"
+
+
+```
+
+### type
+
+type 可以为任意类型创建别名，让代码更简洁、可读性更强，同时能更方便地进行类型复用和扩展
+
+#### 基本用法
+
+```ts
+// 假设想个string取个名字str
+type str = string;
+// 然后就可以使用str类型了
+let a: str = 'hello';
+
+```
+
+#### 联合类型，它表示一个值可以是几种不同类型之一
+
+```ts
+type strOrNum = string | number;
+let b: strOrNum = 123;
+
+type sex = '男' | '女'
+
+let c: sex = true; // 报错
+let d: sex = '男';
+
+function sayHello(name: strOrNum,sex: sex): void {
+console.log(`hello ${name} ${sex}`);
+}
+
+sayHello('world', '男'); // hello world 男
+```
+
+#### 交叉类型，它表示多个类型合并成一个类型
+
+交叉类型(Intersection Types)将多个类型合并为一个类型。合并后的类型将拥有所有被合并类型的成员。交叉类型通常用于**对象类型**。
+
+```ts
+type base = {
+  name: string;
+  age: number;
+};
+
+type info = {
+  phone: number;
+};
+
+type person = base & info;
+
+let p: person = {
+  name: 'chenxin',
+  age: 25,
+  phone: 1234567890,
+};
+
+```
