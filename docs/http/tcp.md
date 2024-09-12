@@ -44,4 +44,4 @@ TCP/IP协议族中，有应用层、传输层、网络层、数据层链路层�
 5. FIN(FINISH)
 
 挥手客户端、服务端都可以发起挥手（关闭连接），但是需要满足以下条件：
-![alt text](image.png)
+![alt text](./img/tcp3.png)
